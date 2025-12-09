@@ -28,3 +28,7 @@ yarn-error.log*
 *.tfstate.*
 *.tfstate.backup
 .terraform.lock.hcl
+
+# Documentation (personal notes)
+PROJECT_OVERVIEW*.md
+LOOM_SCRIPT*.md
