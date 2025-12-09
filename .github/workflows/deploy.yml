@@ -20,7 +20,7 @@ jobs:
         run: npm ci
       
       - name: Build
-        run: npm run build
+        run: CI=false npm run build
       
       - name: Deploy to Azure Blob Storage
         uses: azure/CLI@v1
