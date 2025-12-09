@@ -1,10 +1,10 @@
 import { Profile } from '../types';
 
 const profile: Profile = {
-    firstName: 'Clarence',
-    lastName: 'Taylor',
-    addressLine1: '3542 Berry Street',
-    addressLine2: 'Cheyenne Wells, CO 80810',
+    firstName: 'Jelani',
+    lastName: 'Alexander',
+    addressLine1: 'Aichi, Japan',
+    addressLine2: '-',
     telephone: '(317) 585-8468',
     email: 'name@email.com',
     description:

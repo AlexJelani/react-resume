@@ -16,6 +16,7 @@ import EducationSection from './EducationSection';
 import ExperienceSection from './ExperienceSection';
 import InterestsSection from './InterestsSection';
 import SkillsSection from './SkillsSection';
+import VisitorCounter from './VisitorCounter';
 
 const IndexPage: React.FC = () => (
     <Container className="p-0" fluid>
@@ -35,6 +36,11 @@ const IndexPage: React.FC = () => (
         <Divider />
 
         <AwardsSection certifications={certifications} />
+        <Divider />
+        
+        <div className="text-center py-3">
+            <VisitorCounter apiUrl="http://localhost:7071/api/visitor" />
+        </div>
     </Container>
 );
 
