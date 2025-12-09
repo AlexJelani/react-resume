@@ -1,36 +1,61 @@
-name: Build and Deploy
+name: Build and Deploy to Azure Storage
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ main, master ]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '17'
-          cache: 'npm'
-      
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Build
-        run: CI=false npm run build
-      
-      - name: Deploy to Azure Blob Storage
-        uses: azure/CLI@v1
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az storage blob upload-batch \
-              --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} \
-              --auth-mode key \
-              --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
-              --destination '$web' \
-              --source ./build \
-              --overwrite
+    # 1. Checkout code
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    
+    # 2. Setup Node.js with proper version
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+    
+    # 3. INSTALL DEPENDENCIES 
+    - name: Install dependencies
+      run: npm ci
+    
+    # 4. Build the React app
+    - name: Build React app
+      run: npm run build
+    
+    # 5. Verify build output exists
+    - name: Verify build output
+      run: |
+        echo "Checking build folder..."
+        if [ ! -d "./build" ]; then
+          echo "❌ ERROR: build folder not found!"
+          echo "Current directory contents:"
+          ls -la
+          exit 1
+        fi
+        echo "✅ Build folder found"
+        echo "Build files:"
+        ls -la ./build/
+    
+    # 6. Upload to Azure Storage
+    - name: Deploy to Azure Blob Storage
+      uses: azure/CLI@v1
+      with:
+        azcliversion: latest
+        inlineScript: |
+          echo "Starting upload to Azure Storage..."
+          
+          az storage blob upload-batch \
+            --account-name "${{ secrets.AZURE_STORAGE_ACCOUNT }}" \
+            --auth-mode key \
+            --account-key "${{ secrets.AZURE_STORAGE_KEY }}" \
+            --destination "\$web" \
+            --source ./build \
+            --overwrite
+          
+          echo "Upload completed successfully!"
