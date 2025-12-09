@@ -6,7 +6,7 @@ import { NavScrollLink } from './common';
 const Navigation: React.FC = () => (
     <Navbar bg="primary" className="navigation" expand="lg" fixed="top" variant="dark">
         <Navbar.Brand href="/">
-            <span className="d-block d-lg-none">Clarence Taylor</span>
+            <span className="d-block d-lg-none">Jelani Alexander</span>
             <span className="d-none d-lg-block">
                 <img
                     className="img-fluid img-profile rounded-circle mx-auto mb-2"

@@ -2,16 +2,22 @@ import { Workflow } from '../types';
 
 const workflows: Workflow[] = [
     {
-        description: 'Mobile-First, Responsive Design'
+        description: 'Infrastructure as Code (Terraform)'
     },
     {
-        description: 'Cross Browser Testing & Debugging'
+        description: 'CI/CD Pipeline Automation'
     },
     {
-        description: 'Cross Functional Teams'
+        description: 'Container Orchestration (Kubernetes)'
     },
     {
-        description: 'Agile Development & Scrum'
+        description: 'Cloud Security & Compliance'
+    },
+    {
+        description: 'Monitoring & Observability'
+    },
+    {
+        description: 'Agile Development & DevOps'
     }
 ];
 
