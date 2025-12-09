@@ -31,6 +31,6 @@ jobs:
               --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} \
               --auth-mode key \
               --account-key ${{ secrets.AZURE_STORAGE_KEY }} \
-              -d '$web' \
-              -s ./build \
+              --destination '$web' \
+              --source ./build \
               --overwrite
