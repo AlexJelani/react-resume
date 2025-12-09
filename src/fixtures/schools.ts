@@ -2,18 +2,18 @@ import { School } from '../types';
 
 const schools: School[] = [
     {
-        name: 'University of Colorado Boulder',
+        name: 'University',
         degree: 'Bachelor of Science',
-        fieldOfStudy: 'Computer Science - Web Development Track',
-        grade: 'GPA: 3.23',
-        duration: 'August 2006 - May 2010'
+        fieldOfStudy: 'Computer Science',
+        grade: '',
+        duration: '2015 - 2019'
     },
     {
-        name: 'James Buchanan High School',
-        degree: 'Technology Magnet Program',
-        fieldOfStudy: '',
-        grade: 'GPA: 3.56',
-        duration: 'August 2002 - May 2006'
+        name: 'Microsoft Azure Certifications',
+        degree: 'Cloud Certifications',
+        fieldOfStudy: 'Azure Fundamentals, Azure Administrator',
+        grade: '',
+        duration: '2022 - 2023'
     }
 ];
 

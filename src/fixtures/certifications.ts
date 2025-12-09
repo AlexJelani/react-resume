@@ -3,43 +3,58 @@ import { Certification } from '../types';
 const certifications: Certification[] = [
     {
         colour: 'gold',
-        description: 'Google Analytics Certified Developer',
+        description: 'Oracle Cloud Infrastructure 2025 AI Foundations Associate',
         icon: 'trophy',
     },
     {
         colour: 'gold',
-        description: 'Mobile Web Specialist - Google Certification',
+        description: 'Oracle Cloud Infrastructure 2025 Certified Foundations Associate',
         icon: 'trophy',
     },
     {
         colour: 'gold',
-        description: 'University of Colorado Boulder - Emerging Tech Competition 2009',
+        description: 'Microsoft Certified: Azure Fundamentals',
         icon: 'trophy',
-        place: 1,
     },
     {
         colour: 'gold',
-        description: 'University of Colorado Boulder - Adobe Creative Jam 2008 (UI Design Category)',
+        description: 'Google Professional Cloud DevOps Engineer',
         icon: 'trophy',
-        place: 1,
-    },
-    {
-        colour: 'silver',
-        description: 'University of Colorado Boulder - Emerging Tech Competition 2008',
-        icon: 'trophy',
-        place: 2,
     },
     {
         colour: 'gold',
-        description: 'James Buchanan High School - Hackathon 2006',
+        description: 'AWS Cloud Architect - Udacity',
         icon: 'trophy',
-        place: 1
     },
     {
-        colour: 'brown',
-        description: 'James Buchanan High School - Hackathon 2005',
+        colour: 'gold',
+        description: 'Certificate of Cloud Security Knowledge (CCSK) v.4',
         icon: 'trophy',
-        place: 3
+    },
+    {
+        colour: 'gold',
+        description: 'Cloud DevOps Engineer - Udacity',
+        icon: 'trophy',
+    },
+    {
+        colour: 'gold',
+        description: 'HashiCorp Certified: Terraform Associate (003)',
+        icon: 'trophy',
+    },
+    {
+        colour: 'gold',
+        description: 'AWS Certified Solutions Architect – Associate',
+        icon: 'trophy',
+    },
+    {
+        colour: 'gold',
+        description: 'AWS Certified Cloud Practitioner',
+        icon: 'trophy',
+    },
+    {
+        colour: 'gold',
+        description: 'Business Japanese Proficiency Test (BJPT)',
+        icon: 'trophy',
     },
 ];
 

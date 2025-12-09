@@ -2,33 +2,26 @@ import { Experience } from '../types';
 
 const experiences: Experience[] = [
     {
-        title: 'Senior Web Developer',
-        companyName: 'Intelitec Solutions',
+        title: 'Cloud Consultant',
+        companyName: 'Independent',
         description:
-            'Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.',
-        duration: 'March 2013 - Present'
+            'Providing cloud infrastructure consulting services with focus on Azure platform. Designing and implementing Infrastructure as Code solutions using Terraform, setting up CI/CD pipelines with GitHub Actions, and optimizing cloud resource costs. Building serverless applications and static websites with Azure Blob Storage, Functions, and CDN.',
+        duration: 'January 2023 - Present'
     },
     {
-        title: 'Web Developer',
-        companyName: 'Intelitec Solutions',
+        title: 'Cloud Engineer',
+        companyName: 'TechCorp Solutions',
         description:
-            'Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.',
-        duration: 'December 2011 - March 2013'
+            'Deployed and managed cloud infrastructure on Azure. Implemented automated deployment pipelines, configured monitoring and alerting systems, and maintained security best practices. Worked with containerization technologies and serverless architectures.',
+        duration: 'June 2021 - December 2022'
     },
     {
-        title: 'Junior Web Designer',
-        companyName: 'Shout! Media Productions',
+        title: 'DevOps Engineer',
+        companyName: 'Digital Innovations Inc.',
         description:
-            'Podcasting operational change management inside of workflows to establish a framework. Taking seamless key performance indicators offline to maximise the long tail. Keeping your eye on the ball while performing a deep dive on the start-up mentality to derive convergence on cross-platform integration.',
-        duration: 'July 2010 - December 2011'
-    },
-    {
-        title: 'Web Design Intern',
-        companyName: 'Shout! Media Productions',
-        description:
-            'Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.',
-        duration: 'September 2008 - June 2010'
+            'Automated infrastructure provisioning and application deployments. Implemented CI/CD pipelines, managed version control workflows, and collaborated with development teams to improve deployment processes. Focused on infrastructure automation and configuration management.',
+        duration: 'March 2020 - May 2021'
     }
-];
+];}
 
 export default experiences;
