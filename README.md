@@ -2,9 +2,11 @@
 
 ![App preview](https://pbs.twimg.com/media/FGfEkxsXIAEMtZI?format=jpg&name=4096x4096)
 
-**Live Site:** [https://alexandercloudconsultant.com](https://alexandercloudconsultant.com)
+**Live Sites:** 
+- **Production:** [https://alexandercloudconsultant.com](https://alexandercloudconsultant.com) (Azure Blob Storage + Cloudflare)
+- **Azure Static Web Apps:** [https://lemon-smoke-0541d8f0f.3.azurestaticapps.net](https://lemon-smoke-0541d8f0f.3.azurestaticapps.net) (Full-stack with API)
 
-A full-stack serverless resume website deployed on Microsoft Azure with CI/CD automation, Infrastructure as Code, and custom domain with HTTPS.
+A full-stack serverless resume website deployed on Microsoft Azure with CI/CD automation, Infrastructure as Code, custom domain with HTTPS, and Azure Functions API backend.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and is a port of [Resume](https://github.com/StartBootstrap/startbootstrap-resume) by [Start Bootstrap](https://startbootstrap.com).
 
@@ -23,18 +25,49 @@ npm run build
 
 ## 🏗️ Architecture
 
+### Production Setup (Main Branch)
 - **Frontend:** React + TypeScript + Bootstrap
 - **Hosting:** Azure Blob Storage (Static Website)
 - **CDN/SSL:** Cloudflare Worker (Free proxy to Azure)
+- **Domain:** alexandercloudconsultant.com
+
+### Full-Stack Setup (Feature Branch)
+- **Frontend:** React + TypeScript + Bootstrap
+- **Hosting:** Azure Static Web Apps
+- **Backend:** Azure Functions (Node.js)
+- **API:** Visitor Counter with in-memory storage
+- **Domain:** lemon-smoke-0541d8f0f.3.azurestaticapps.net
+
+### Infrastructure
 - **IaC:** Terraform
-- **CI/CD:** GitHub Actions
+- **CI/CD:** GitHub Actions (2 pipelines)
 - **Monitoring:** Azure Budget Alerts + Resource Tags
 
 ## 💰 Cost
 
+### Production Setup
 **~$0.50-1/month** (Azure Blob Storage only)
 - Cloudflare Worker: FREE (100k requests/day)
 - No Azure CDN needed!
+
+### Full-Stack Setup
+**~$0.50-1/month** (Same cost!)
+- Azure Static Web Apps: FREE (100GB bandwidth)
+- Azure Functions: FREE (1M executions/month)
+- CosmosDB: Not used (cost optimization)
+
+## 🚀 Features
+
+### 📊 Visitor Counter
+- **Real-time visitor tracking** displayed in navigation and footer
+- **Azure Functions backend** with in-memory storage
+- **Increments by 1** on each page visit
+- **Resets on function restart** (serverless architecture)
+
+### 🔄 Dual Deployment Strategy
+- **Main branch:** Deploys to production (Blob Storage + Cloudflare)
+- **Feature branch:** Deploys to Azure Static Web Apps with API
+- **Independent pipelines** for testing and production
 
 ## 📚 Documentation
 
@@ -148,6 +181,24 @@ terraform import azurerm_resource_group.resume /subscriptions/<sub-id>/resourceG
 terraform import azurerm_storage_account.resume /subscriptions/<sub-id>/resourceGroups/rg-resume/providers/Microsoft.Storage/storageAccounts/<storage-name>
 ```
 
+### 11. Azure Static Web Apps Build Failures
+**Problem:** Build fails with "Treating warnings as errors because process.env.CI = true".
+
+**Solution:** Add custom build command in workflow:
+```yaml
+app_build_command: "CI=false npm run build"
+```
+
+### 12. Visitor Counter Not Incrementing
+**Problem:** Counter shows random numbers or doesn't increment properly.
+
+**Solution:** Use in-memory counter in Azure Function:
+```javascript
+let visitorCount = 0;
+visitorCount++; // Increments by 1 each visit
+```
+Note: Counter resets on function restart (serverless behavior).
+
 ## 🔒 Security Best Practices
 
 1. ✅ Never commit secrets to git
@@ -159,23 +210,33 @@ terraform import azurerm_storage_account.resume /subscriptions/<sub-id>/resource
 
 ## 📝 Deployment Checklist
 
+### Production Deployment (Main Branch)
 - [ ] Run `terraform init` and `terraform apply`
 - [ ] Get storage account name and key from Terraform outputs
 - [ ] Add secrets to GitHub (AZURE_STORAGE_ACCOUNT, AZURE_STORAGE_KEY)
-- [ ] Push code to trigger GitHub Actions deployment
+- [ ] Push code to main branch to trigger deployment
 - [ ] Create Cloudflare Worker with provided script
 - [ ] Add worker routes for your domain
 - [ ] Verify nameservers point to Cloudflare
 - [ ] Test site at https://yourdomain.com
-- [ ] Monitor worker analytics in Cloudflare
+
+### Azure Static Web Apps Deployment (Feature Branch)
+- [ ] Infrastructure already deployed via Terraform
+- [ ] Add GitHub secret: AZURE_STATIC_WEB_APPS_API_TOKEN
+- [ ] Push code to feature/azure-functions-backend branch
+- [ ] Monitor deployment in GitHub Actions
+- [ ] Test full-stack site with visitor counter
+- [ ] Verify API endpoint: /api/visitor
 
 ## 🎯 Next Steps
 
-- [ ] Complete visitor counter API (Azure Functions + CosmosDB)
+- [x] **Complete visitor counter API** (Azure Functions - DONE!)
+- [ ] Add persistent storage (CosmosDB or Azure Table Storage)
 - [ ] Add contact form with email notifications
 - [ ] Implement analytics dashboard
-- [ ] Create staging environment
+- [ ] Merge feature branch to main for unified deployment
 - [ ] Add automated tests to CI/CD
+- [ ] Add monitoring and alerting for API functions
 
 ## 📧 Contact
 
