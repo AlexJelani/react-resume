@@ -1,16 +1,17 @@
 const { app } = require('@azure/functions');
 
+// Simple in-memory counter (resets on function restart)
+let visitorCount = 0;
+
 app.http('visitor', {
     methods: ['GET', 'POST'],
     authLevel: 'anonymous',
     handler: async (request, context) => {
         try {
-            // Simple counter that increments each time
-            // In production, this resets on each function restart
-            // But it's FREE and works for demonstration
-            const baseCount = 150; // Starting count
-            const randomIncrement = Math.floor(Math.random() * 10) + 1;
-            const count = baseCount + randomIncrement;
+            // Increment counter by 1 each time
+            visitorCount++;
+            
+            context.log(`Visitor count: ${visitorCount}`);
             
             return {
                 status: 200,
@@ -18,7 +19,7 @@ app.http('visitor', {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*'
                 },
-                body: JSON.stringify({ count })
+                body: JSON.stringify({ count: visitorCount })
             };
         } catch (error) {
             context.log('Error:', error);
