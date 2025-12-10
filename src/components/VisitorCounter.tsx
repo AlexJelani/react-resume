@@ -29,13 +29,13 @@ const VisitorCounter: React.FC<VisitorCounterProps> = ({ apiUrl }) => {
         updateVisitorCount();
     }, [apiUrl]);
 
-    if (error) return <div className="text-muted small">{error}</div>;
-    if (count === null) return <div className="text-muted small">Loading...</div>;
+    if (error) return <span>{error}</span>;
+    if (count === null) return <span>Loading...</span>;
 
     return (
-        <div className="visitor-counter text-muted small">
+        <span>
             Visitors: {count.toLocaleString()}
-        </div>
+        </span>
     );
 };
 
