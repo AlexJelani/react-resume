@@ -39,7 +39,7 @@ const IndexPage: React.FC = () => (
         <Divider />
         
         <div className="text-center py-3">
-            <VisitorCounter apiUrl="http://localhost:7071/api/visitor" />
+            <VisitorCounter apiUrl="https://lemon-smoke-0541d8f0f.3.azurestaticapps.net/api/visitor" />
         </div>
     </Container>
 );

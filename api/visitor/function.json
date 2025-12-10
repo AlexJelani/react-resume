@@ -1,0 +1,36 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": ["post", "get"],
+      "route": "visitor"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "in",
+      "name": "counterIn",
+      "databaseName": "ResumeDB",
+      "collectionName": "Counters",
+      "connectionStringSetting": "CosmosDBConnection",
+      "id": "visitor-count",
+      "partitionKey": "visitor-count"
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "out",
+      "name": "counterOut",
+      "databaseName": "ResumeDB",
+      "collectionName": "Counters",
+      "connectionStringSetting": "CosmosDBConnection",
+      "createIfNotExists": true
+    }
+  ]
+}

@@ -62,6 +62,37 @@ output "storage_account_key" {
   sensitive = true
 }
 
+output "static_web_app_name" {
+  value = azurerm_static_site.resume.name
+}
+
+output "static_web_app_url" {
+  value = "https://${azurerm_static_site.resume.default_host_name}"
+}
+
+output "static_web_app_api_key" {
+  value     = azurerm_static_site.resume.api_key
+  sensitive = true
+}
+
+
+
+# Static Web App (includes API functions)
+resource "azurerm_static_site" "resume" {
+  name                = "swa-resume-${random_string.suffix.result}"
+  resource_group_name = azurerm_resource_group.resume.name
+  location            = "East US 2"
+  sku_tier            = "Free"
+  sku_size            = "Free"
+
+  tags = {
+    Environment = "Production"
+    Project     = "Resume"
+    ManagedBy   = "Terraform"
+    CostCenter  = "Personal"
+  }
+}
+
 # Budget Alert
 resource "azurerm_consumption_budget_resource_group" "resume_budget" {
   name              = "budget-resume"
