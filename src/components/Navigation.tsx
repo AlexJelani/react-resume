@@ -26,7 +26,7 @@ const Navigation: React.FC = () => (
                 <NavScrollLink to="interests">Interests</NavScrollLink>
                 <NavScrollLink to="awards">Awards</NavScrollLink>
                 <Nav.Link className="ms-3">
-                    <VisitorCounter apiUrl="http://localhost:7071/api/visitor" />
+                    <VisitorCounter apiUrl="https://lemon-smoke-0541d8f0f.3.azurestaticapps.net/api/visitor" />
                 </Nav.Link>
             </Nav>
         </Navbar.Collapse>

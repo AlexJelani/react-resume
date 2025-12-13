@@ -2,9 +2,11 @@
 
 ![App preview](https://pbs.twimg.com/media/FGfEkxsXIAEMtZI?format=jpg&name=4096x4096)
 
-**Live Site:** [https://alexandercloudconsultant.com](https://alexandercloudconsultant.com)
+**Live Sites:** 
+- **Production:** [https://alexandercloudconsultant.com](https://alexandercloudconsultant.com) (Azure Blob Storage + Cloudflare)
+- **Azure Static Web Apps:** [https://lemon-smoke-0541d8f0f.3.azurestaticapps.net](https://lemon-smoke-0541d8f0f.3.azurestaticapps.net) (Full-stack with API)
 
-A full-stack serverless resume website deployed on Microsoft Azure with CI/CD automation, Infrastructure as Code, and custom domain with HTTPS.
+A full-stack serverless resume website deployed on Microsoft Azure with CI/CD automation, Infrastructure as Code, custom domain with HTTPS, and Azure Functions API backend.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and is a port of [Resume](https://github.com/StartBootstrap/startbootstrap-resume) by [Start Bootstrap](https://startbootstrap.com).
 
@@ -23,18 +25,50 @@ npm run build
 
 ## 🏗️ Architecture
 
+### Production Setup (Main Branch)
 - **Frontend:** React + TypeScript + Bootstrap
 - **Hosting:** Azure Blob Storage (Static Website)
 - **CDN/SSL:** Cloudflare Worker (Free proxy to Azure)
+- **Domain:** alexandercloudconsultant.com
+
+### Full-Stack Setup (Feature Branch)
+- **Frontend:** React + TypeScript + Bootstrap
+- **Hosting:** Azure Static Web Apps
+- **Backend:** Azure Functions (Node.js)
+- **API:** Visitor Counter with in-memory storage
+- **Domain:** lemon-smoke-0541d8f0f.3.azurestaticapps.net
+
+### Infrastructure
 - **IaC:** Terraform
-- **CI/CD:** GitHub Actions
+- **CI/CD:** GitHub Actions (2 pipelines)
 - **Monitoring:** Azure Budget Alerts + Resource Tags
 
 ## 💰 Cost
 
+### Production Setup
 **~$0.50-1/month** (Azure Blob Storage only)
 - Cloudflare Worker: FREE (100k requests/day)
 - No Azure CDN needed!
+
+### Full-Stack Setup
+**~$0.75-1.25/month** (Includes CosmosDB!)
+- Azure Static Web Apps: FREE (100GB bandwidth)
+- Azure Functions: FREE (1M executions/month)
+- CosmosDB Serverless: ~$0.25-0.75/month (pay per request)
+
+## 🚀 Features
+
+### 📊 Visitor Counter
+- **Real-time visitor tracking** displayed in navigation and footer
+- **Azure Functions backend** with CosmosDB persistent storage
+- **Increments by 1** on each page visit
+- **Persistent across restarts** - no more number skipping
+- **Automatic database/container creation** on first function execution
+
+### 🔄 Dual Deployment Strategy
+- **Main branch:** Deploys to production (Blob Storage + Cloudflare)
+- **Feature branch:** Deploys to Azure Static Web Apps with API
+- **Independent pipelines** for testing and production
 
 ## 📚 Documentation
 
@@ -133,10 +167,11 @@ terraform output -raw storage_account_key
 **Problem:** Counter shows "Loading..." or error.
 
 **Solution:**
-- For local testing: Run `node mock-api.js` first
-- For production: Ensure Azure Functions API is deployed
-- Check API URL in `src/components/IndexPage.tsx`
-- Verify CORS settings on Azure Functions
+- For local testing: Run `func start` in `/api` directory
+- For production: Ensure Azure Functions API is deployed with CosmosDB dependency
+- Check API URL in Navigation component
+- Verify CORS settings and CosmosDB permissions
+- Check Azure Portal → CosmosDB → Data Explorer → ResumeDB → Counters for visitor document
 
 ### 10. Terraform State Conflicts
 **Problem:** "Resource already exists" error when running `terraform apply`.
@@ -147,6 +182,40 @@ terraform output -raw storage_account_key
 terraform import azurerm_resource_group.resume /subscriptions/<sub-id>/resourceGroups/rg-resume
 terraform import azurerm_storage_account.resume /subscriptions/<sub-id>/resourceGroups/rg-resume/providers/Microsoft.Storage/storageAccounts/<storage-name>
 ```
+
+### 11. Azure Static Web Apps Build Failures
+**Problem:** Build fails with "Treating warnings as errors because process.env.CI = true".
+
+**Solution:** Add custom build command in workflow:
+```yaml
+app_build_command: "CI=false npm run build"
+```
+
+### 12. Visitor Counter Not Incrementing
+**Problem:** Counter shows random numbers or doesn't increment properly.
+
+**Solution:** Use CosmosDB for persistent storage:
+```javascript
+const { CosmosClient } = require('@azure/cosmos');
+// Persistent counter with CosmosDB Serverless
+// Automatically creates ResumeDB database and Counters container
+// No more number skipping or resets
+```
+Note: Counter persists across function restarts using CosmosDB.
+
+### 13. CosmosDB Dependency Missing
+**Problem:** Function fails with "Cannot find module '@azure/cosmos'".
+
+**Solution:** Ensure package.json includes the dependency:
+```json
+{
+  "dependencies": {
+    "@azure/functions": "^4.0.0",
+    "@azure/cosmos": "^4.0.0"
+  }
+}
+```
+Redeploy after adding the dependency to package.json.
 
 ## 🔒 Security Best Practices
 
@@ -159,23 +228,33 @@ terraform import azurerm_storage_account.resume /subscriptions/<sub-id>/resource
 
 ## 📝 Deployment Checklist
 
+### Production Deployment (Main Branch)
 - [ ] Run `terraform init` and `terraform apply`
 - [ ] Get storage account name and key from Terraform outputs
 - [ ] Add secrets to GitHub (AZURE_STORAGE_ACCOUNT, AZURE_STORAGE_KEY)
-- [ ] Push code to trigger GitHub Actions deployment
+- [ ] Push code to main branch to trigger deployment
 - [ ] Create Cloudflare Worker with provided script
 - [ ] Add worker routes for your domain
 - [ ] Verify nameservers point to Cloudflare
 - [ ] Test site at https://yourdomain.com
-- [ ] Monitor worker analytics in Cloudflare
+
+### Azure Static Web Apps Deployment (Feature Branch)
+- [ ] Infrastructure already deployed via Terraform
+- [ ] Add GitHub secret: AZURE_STATIC_WEB_APPS_API_TOKEN
+- [ ] Push code to feature/azure-functions-backend branch
+- [ ] Monitor deployment in GitHub Actions
+- [ ] Test full-stack site with visitor counter
+- [ ] Verify API endpoint: /api/visitor
 
 ## 🎯 Next Steps
 
-- [ ] Complete visitor counter API (Azure Functions + CosmosDB)
+- [x] **Complete visitor counter API** (Azure Functions - DONE!)
+- [x] **Add persistent storage** (CosmosDB Serverless - DONE!)
 - [ ] Add contact form with email notifications
 - [ ] Implement analytics dashboard
-- [ ] Create staging environment
+- [ ] Merge feature branch to main for unified deployment
 - [ ] Add automated tests to CI/CD
+- [ ] Add monitoring and alerting for API functions
 
 ## 📧 Contact
 
