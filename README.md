@@ -264,3 +264,4 @@ Redeploy after adding the dependency to package.json.
 ## 📄 License
 
 Licensed under MIT. Totally free for private or commercial projects.
+ 
