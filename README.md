@@ -51,19 +51,19 @@ npm run build
 - No Azure CDN needed!
 
 ### Full-Stack Setup
-**~$0.50-1/month** (Same cost!)
+**~$0.75-1.25/month** (Includes CosmosDB!)
 - Azure Static Web Apps: FREE (100GB bandwidth)
 - Azure Functions: FREE (1M executions/month)
-- CosmosDB: Not used (cost optimization)
+- CosmosDB Serverless: ~$0.25-0.75/month (pay per request)
 
 ## 🚀 Features
 
 ### 📊 Visitor Counter
 - **Real-time visitor tracking** displayed in navigation and footer
-- **Azure Functions backend** with Azure Tables persistent storage
+- **Azure Functions backend** with CosmosDB persistent storage
 - **Increments by 1** on each page visit
 - **Persistent across restarts** - no more number skipping
-- **Automatic table creation** on first function execution
+- **Automatic database/container creation** on first function execution
 
 ### 🔄 Dual Deployment Strategy
 - **Main branch:** Deploys to production (Blob Storage + Cloudflare)
@@ -168,10 +168,10 @@ terraform output -raw storage_account_key
 
 **Solution:**
 - For local testing: Run `func start` in `/api` directory
-- For production: Ensure Azure Functions API is deployed with Azure Tables dependency
+- For production: Ensure Azure Functions API is deployed with CosmosDB dependency
 - Check API URL in Navigation component
-- Verify CORS settings and Azure Tables permissions
-- Check Azure Portal → Storage Account → Tables for VisitorCount table
+- Verify CORS settings and CosmosDB permissions
+- Check Azure Portal → CosmosDB → Data Explorer → ResumeDB → Counters for visitor document
 
 ### 10. Terraform State Conflicts
 **Problem:** "Resource already exists" error when running `terraform apply`.
@@ -194,24 +194,24 @@ app_build_command: "CI=false npm run build"
 ### 12. Visitor Counter Not Incrementing
 **Problem:** Counter shows random numbers or doesn't increment properly.
 
-**Solution:** Use Azure Tables for persistent storage:
+**Solution:** Use CosmosDB for persistent storage:
 ```javascript
-const { TableClient } = require('@azure/data-tables');
-// Persistent counter with Azure Tables
-// Automatically creates VisitorCount table
+const { CosmosClient } = require('@azure/cosmos');
+// Persistent counter with CosmosDB Serverless
+// Automatically creates ResumeDB database and Counters container
 // No more number skipping or resets
 ```
-Note: Counter persists across function restarts using Azure Tables.
+Note: Counter persists across function restarts using CosmosDB.
 
-### 13. Azure Tables Dependency Missing
-**Problem:** Function fails with "Cannot find module '@azure/data-tables'".
+### 13. CosmosDB Dependency Missing
+**Problem:** Function fails with "Cannot find module '@azure/cosmos'".
 
 **Solution:** Ensure package.json includes the dependency:
 ```json
 {
   "dependencies": {
     "@azure/functions": "^4.0.0",
-    "@azure/data-tables": "^13.0.0"
+    "@azure/cosmos": "^4.0.0"
   }
 }
 ```
@@ -249,7 +249,7 @@ Redeploy after adding the dependency to package.json.
 ## 🎯 Next Steps
 
 - [x] **Complete visitor counter API** (Azure Functions - DONE!)
-- [x] **Add persistent storage** (Azure Table Storage - DONE!)
+- [x] **Add persistent storage** (CosmosDB Serverless - DONE!)
 - [ ] Add contact form with email notifications
 - [ ] Implement analytics dashboard
 - [ ] Merge feature branch to main for unified deployment
