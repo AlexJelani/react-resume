@@ -1,7 +1,6 @@
 const { TableClient } = require('@azure/data-tables');
 
-// Fallback to in-memory if no storage configured
-let visitorCount = 0;
+let visitorCount = 0; // Fallback counter
 
 module.exports = async function (context, req) {
     if (req.method === 'OPTIONS') {
@@ -16,36 +15,48 @@ module.exports = async function (context, req) {
         return;
     }
 
+    let count = 0;
+    
     try {
-        let count;
-        
-        // Try Azure Table Storage first
+        // Try Azure Tables first
         if (process.env.AzureWebJobsStorage) {
+            context.log('Using Azure Tables storage');
+            
             const tableClient = TableClient.fromConnectionString(
-                process.env.AzureWebJobsStorage, 
+                process.env.AzureWebJobsStorage,
                 'VisitorCount'
             );
             
+            // Ensure table exists
+            await tableClient.createTable();
+            
             try {
-                await tableClient.createTable();
+                // Get current count
                 const entity = await tableClient.getEntity('counter', 'visitors');
                 count = entity.count + 1;
+                
+                // Update count
                 await tableClient.updateEntity({
                     partitionKey: 'counter',
-                    rowKey: 'visitors', 
-                    count
+                    rowKey: 'visitors',
+                    count: count
                 });
-            } catch {
-                // Create initial entity
+                
+                context.log(`Updated Azure Tables count: ${count}`);
+            } catch (getError) {
+                // Entity doesn't exist, create it
                 count = 1;
                 await tableClient.createEntity({
                     partitionKey: 'counter',
                     rowKey: 'visitors',
-                    count
+                    count: count
                 });
+                
+                context.log(`Created new Azure Tables entity with count: ${count}`);
             }
         } else {
             // Fallback to in-memory
+            context.log('No storage connection, using in-memory counter');
             visitorCount++;
             count = visitorCount;
         }
@@ -56,17 +67,23 @@ module.exports = async function (context, req) {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
             },
-            body: { count }
+            body: { count: count }
         };
+        
     } catch (error) {
-        context.log('Error:', error);
+        context.log('Azure Tables error, falling back to in-memory:', error.message);
+        
+        // Fallback to in-memory on any error
+        visitorCount++;
+        count = visitorCount;
+        
         context.res = {
-            status: 500,
+            status: 200,
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
             },
-            body: { error: 'Failed to get visitor count' }
+            body: { count: count }
         };
     }
-};}
+};
