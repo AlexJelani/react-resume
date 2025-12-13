@@ -26,27 +26,50 @@ module.exports = async function (context, req) {
             const database = client.database('ResumeDB');
             const container = database.container('Counters');
             
-            try {
-                // Get current count
-                const { resource } = await container.item('visitor-count', 'visitor-count').read();
-                count = resource.count + 1;
-                
-                // Update count
-                await container.item('visitor-count', 'visitor-count').replace({
-                    id: 'visitor-count',
-                    count: count
-                });
-                
-                context.log(`Updated CosmosDB count: ${count}`);
-            } catch (readError) {
-                // Document doesn't exist, create it
-                count = 1;
-                await container.items.create({
-                    id: 'visitor-count',
-                    count: count
-                });
-                
-                context.log(`Created new CosmosDB document with count: ${count}`);
+            // Atomic increment with retry logic
+            let retries = 3;
+            while (retries > 0) {
+                try {
+                    const { resource } = await container.item('visitor-count', 'visitor-count').read();
+                    const newCount = resource.count + 1;
+                    
+                    // Atomic update with etag check
+                    await container.item('visitor-count', 'visitor-count').replace({
+                        id: 'visitor-count',
+                        count: newCount
+                    }, { accessCondition: { type: 'IfMatch', condition: resource._etag } });
+                    
+                    count = newCount;
+                    context.log(`Updated CosmosDB count: ${count}`);
+                    break;
+                } catch (error) {
+                    if (error.code === 412 && retries > 1) {
+                        // Conflict - retry
+                        retries--;
+                        context.log(`Conflict detected, retrying... (${retries} left)`);
+                        continue;
+                    } else if (error.code === 404) {
+                        // Document doesn't exist, create it
+                        try {
+                            await container.items.create({
+                                id: 'visitor-count',
+                                count: 1
+                            });
+                            count = 1;
+                            context.log('Created new CosmosDB document with count: 1');
+                            break;
+                        } catch (createError) {
+                            if (createError.code === 409) {
+                                // Document was created by another request, retry
+                                retries--;
+                                continue;
+                            }
+                            throw createError;
+                        }
+                    } else {
+                        throw error;
+                    }
+                }
             }
         } else {
             // Fallback to in-memory
