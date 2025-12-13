@@ -60,9 +60,10 @@ npm run build
 
 ### 📊 Visitor Counter
 - **Real-time visitor tracking** displayed in navigation and footer
-- **Azure Functions backend** with in-memory storage
+- **Azure Functions backend** with Azure Tables persistent storage
 - **Increments by 1** on each page visit
-- **Resets on function restart** (serverless architecture)
+- **Persistent across restarts** - no more number skipping
+- **Automatic table creation** on first function execution
 
 ### 🔄 Dual Deployment Strategy
 - **Main branch:** Deploys to production (Blob Storage + Cloudflare)
@@ -166,10 +167,11 @@ terraform output -raw storage_account_key
 **Problem:** Counter shows "Loading..." or error.
 
 **Solution:**
-- For local testing: Run `node mock-api.js` first
-- For production: Ensure Azure Functions API is deployed
-- Check API URL in `src/components/IndexPage.tsx`
-- Verify CORS settings on Azure Functions
+- For local testing: Run `func start` in `/api` directory
+- For production: Ensure Azure Functions API is deployed with Azure Tables dependency
+- Check API URL in Navigation component
+- Verify CORS settings and Azure Tables permissions
+- Check Azure Portal → Storage Account → Tables for VisitorCount table
 
 ### 10. Terraform State Conflicts
 **Problem:** "Resource already exists" error when running `terraform apply`.
@@ -192,12 +194,28 @@ app_build_command: "CI=false npm run build"
 ### 12. Visitor Counter Not Incrementing
 **Problem:** Counter shows random numbers or doesn't increment properly.
 
-**Solution:** Use in-memory counter in Azure Function:
+**Solution:** Use Azure Tables for persistent storage:
 ```javascript
-let visitorCount = 0;
-visitorCount++; // Increments by 1 each visit
+const { TableClient } = require('@azure/data-tables');
+// Persistent counter with Azure Tables
+// Automatically creates VisitorCount table
+// No more number skipping or resets
 ```
-Note: Counter resets on function restart (serverless behavior).
+Note: Counter persists across function restarts using Azure Tables.
+
+### 13. Azure Tables Dependency Missing
+**Problem:** Function fails with "Cannot find module '@azure/data-tables'".
+
+**Solution:** Ensure package.json includes the dependency:
+```json
+{
+  "dependencies": {
+    "@azure/functions": "^4.0.0",
+    "@azure/data-tables": "^13.0.0"
+  }
+}
+```
+Redeploy after adding the dependency to package.json.
 
 ## 🔒 Security Best Practices
 
@@ -231,7 +249,7 @@ Note: Counter resets on function restart (serverless behavior).
 ## 🎯 Next Steps
 
 - [x] **Complete visitor counter API** (Azure Functions - DONE!)
-- [ ] Add persistent storage (CosmosDB or Azure Table Storage)
+- [x] **Add persistent storage** (Azure Table Storage - DONE!)
 - [ ] Add contact form with email notifications
 - [ ] Implement analytics dashboard
 - [ ] Merge feature branch to main for unified deployment
