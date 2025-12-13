@@ -75,6 +75,15 @@ output "static_web_app_api_key" {
   sensitive = true
 }
 
+output "cosmosdb_endpoint" {
+  value = azurerm_cosmosdb_account.resume.endpoint
+}
+
+output "cosmosdb_primary_key" {
+  value     = azurerm_cosmosdb_account.resume.primary_key
+  sensitive = true
+}
+
 
 
 # Static Web App (includes API functions)
@@ -91,6 +100,51 @@ resource "azurerm_static_site" "resume" {
     ManagedBy   = "Terraform"
     CostCenter  = "Personal"
   }
+}
+
+# CosmosDB Account (Serverless)
+resource "azurerm_cosmosdb_account" "resume" {
+  name                = "cosmos-resume-${random_string.suffix.result}"
+  resource_group_name = azurerm_resource_group.resume.name
+  location            = azurerm_resource_group.resume.location
+  offer_type          = "Standard"
+  kind                = "GlobalDocumentDB"
+
+  capabilities {
+    name = "EnableServerless"
+  }
+
+  consistency_policy {
+    consistency_level = "Session"
+  }
+
+  geo_location {
+    location          = azurerm_resource_group.resume.location
+    failover_priority = 0
+  }
+
+  tags = {
+    Environment = "Production"
+    Project     = "Resume"
+    ManagedBy   = "Terraform"
+    CostCenter  = "Personal"
+  }
+}
+
+# CosmosDB Database
+resource "azurerm_cosmosdb_sql_database" "resume" {
+  name                = "ResumeDB"
+  resource_group_name = azurerm_resource_group.resume.name
+  account_name        = azurerm_cosmosdb_account.resume.name
+}
+
+# CosmosDB Container
+resource "azurerm_cosmosdb_sql_container" "counters" {
+  name                = "Counters"
+  resource_group_name = azurerm_resource_group.resume.name
+  account_name        = azurerm_cosmosdb_account.resume.name
+  database_name       = azurerm_cosmosdb_sql_database.resume.name
+  partition_key_path  = "/id"
 }
 
 # Budget Alert
