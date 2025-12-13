@@ -2,7 +2,7 @@ import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import profile from '../assets/images/profile.jpeg';
 import { NavScrollLink } from './common';
-import VisitorCounter from './VisitorCounter';
+// import VisitorCounter from './VisitorCounter';
 
 const Navigation: React.FC = () => (
     <Navbar bg="primary" className="navigation" expand="lg" fixed="top" variant="dark">
@@ -25,9 +25,7 @@ const Navigation: React.FC = () => (
                 <NavScrollLink to="skills">Skills</NavScrollLink>
                 <NavScrollLink to="interests">Interests</NavScrollLink>
                 <NavScrollLink to="awards">Awards</NavScrollLink>
-                <Nav.Link className="ms-3">
-                    <VisitorCounter apiUrl="https://lemon-smoke-0541d8f0f.3.azurestaticapps.net/api/visitor" />
-                </Nav.Link>
+                {/* Visitor counter removed - will add contact form analytics */}
             </Nav>
         </Navbar.Collapse>
     </Navbar>
