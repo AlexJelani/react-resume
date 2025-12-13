@@ -9,6 +9,20 @@ const experiences: Experience[] = [
         duration: 'January 2023 - Present'
     },
     {
+        title: 'Freelance Translator (Technical / Specialized Content)',
+        companyName: 'Remote',
+        description:
+            'Translated technical, IT-related, and structured documentation from English into Japanese with emphasis on accuracy and terminology consistency. Worked with guideline-driven content requiring precise meaning transfer and adherence to client instructions. Researched and maintained terminology using authoritative references and glossaries. Performed self-review and QA checks to ensure linguistic accuracy and formatting compliance.',
+        duration: '2022 - Present'
+    },
+    {
+        title: 'AI & Language Data Projects (Translation / Evaluation Support)',
+        companyName: 'Remote',
+        description:
+            'Participated in language-focused AI projects involving text evaluation, linguistic judgment, and content quality review. Applied bilingual judgment to assess meaning equivalence, clarity, and contextual accuracy. Followed strict task specifications and quality thresholds across multiple platforms.',
+        duration: '2023 - Present'
+    },
+    {
         title: 'Cloud Engineer',
         companyName: 'TechCorp Solutions',
         description:
