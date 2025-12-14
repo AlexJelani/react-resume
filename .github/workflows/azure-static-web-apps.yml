@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - feature/azure-functions-backend
+      - feature/weather-widget
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - feature/azure-functions-backend
+      - feature/weather-widget
 
 jobs:
   build_and_deploy_job:

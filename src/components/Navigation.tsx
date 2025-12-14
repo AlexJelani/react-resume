@@ -2,7 +2,6 @@ import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import profile from '../assets/images/profile.jpeg';
 import { NavScrollLink } from './common';
-// import VisitorCounter from './VisitorCounter';
 import WeatherWidget from './WeatherWidget';
 
 const Navigation: React.FC = () => (
