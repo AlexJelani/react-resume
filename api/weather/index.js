@@ -15,13 +15,16 @@ module.exports = async function (context, req) {
     }
 
     try {
-        // Get user's IP address
-        const userIP = req.headers['x-forwarded-for'] || 
+        // Get user's IP address - Azure Static Web Apps specific headers
+        const forwardedFor = req.headers['x-forwarded-for'];
+        const userIP = forwardedFor ? forwardedFor.split(',')[0].trim() : 
                       req.headers['x-real-ip'] || 
+                      req.headers['x-client-ip'] ||
                       (req.connection && req.connection.remoteAddress) ||
                       '8.8.8.8'; // fallback for testing
 
         context.log(`Getting location for IP: ${userIP}`);
+        context.log(`Headers: x-forwarded-for=${req.headers['x-forwarded-for']}, x-real-ip=${req.headers['x-real-ip']}, x-client-ip=${req.headers['x-client-ip']}`);
 
         // Get location from IP using ipapi.co (free tier)
         let city = 'Nagoya';
@@ -142,7 +145,8 @@ function getLocationWeather(city, country) {
         'Tokyo': { temp: 65, condition: 'Clear' },
         'New York': { temp: 45, condition: 'Cloudy' },
         'London': { temp: 42, condition: 'Rain' },
-        'San Francisco': { temp: 62, condition: 'Fog' }
+        'San Francisco': { temp: 62, condition: 'Fog' },
+        'San Jose': { temp: 58, condition: 'Clear' }
     };
     
     const weather = locations[city] || { temp: 70, condition: 'Clear' };
