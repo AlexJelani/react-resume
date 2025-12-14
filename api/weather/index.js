@@ -82,7 +82,7 @@ module.exports = async function (context, req) {
                 const database = client.database('ResumeDB');
                 const container = database.container('Counters');
                 
-                await container.items.create({
+                const weatherDoc = {
                     id: `weather-${Date.now()}`,
                     type: 'weather_request',
                     city: city,
@@ -90,12 +90,16 @@ module.exports = async function (context, req) {
                     temperature: temperature,
                     condition: condition,
                     timestamp: new Date().toISOString()
-                });
+                };
                 
+                await container.items.create(weatherDoc);
+                context.log('✅ Weather analytics saved:', weatherDoc.id);
 
             } catch (dbError) {
-
+                context.log('❌ CosmosDB error:', dbError.message);
             }
+        } else {
+            context.log('⚠️ CosmosDB connection not configured');
         }
 
         context.res = {
