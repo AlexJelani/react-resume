@@ -1,6 +1,8 @@
-module.exports = async function (context, req) {
+module.exports = async function (context, req, weatherData) {
     try {
-        // Simple test response without CosmosDB for now
+        // weatherData comes from CosmosDB input binding
+        const data = weatherData || [];
+        
         context.res = {
             status: 200,
             headers: {
@@ -8,11 +10,9 @@ module.exports = async function (context, req) {
                 'Access-Control-Allow-Origin': '*'
             },
             body: {
-                message: 'Analytics endpoint working',
-                count: 0,
-                recent: [],
-                cities: [],
-                note: 'CosmosDB integration temporarily disabled due to crypto module issue'
+                count: data.length,
+                recent: data.slice(0, 10),
+                cities: [...new Set(data.map(r => r.city))]
             }
         };
 

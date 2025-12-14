@@ -11,6 +11,15 @@
       "type": "http",
       "direction": "out",
       "name": "res"
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "in",
+      "name": "weatherData",
+      "databaseName": "ResumeDB",
+      "collectionName": "WeatherAnalytics",
+      "connectionStringSetting": "CosmosDBConnection",
+      "sqlQuery": "SELECT * FROM c WHERE c.type = 'weather_request' ORDER BY c.timestamp DESC"
     }
   ]
 }
