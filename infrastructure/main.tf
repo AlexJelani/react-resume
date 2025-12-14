@@ -138,13 +138,13 @@ resource "azurerm_cosmosdb_sql_database" "resume" {
   account_name        = azurerm_cosmosdb_account.resume.name
 }
 
-# CosmosDB Container
-resource "azurerm_cosmosdb_sql_container" "counters" {
-  name                = "Counters"
+# CosmosDB Container - Weather Analytics
+resource "azurerm_cosmosdb_sql_container" "weather_analytics" {
+  name                = "WeatherAnalytics"
   resource_group_name = azurerm_resource_group.resume.name
   account_name        = azurerm_cosmosdb_account.resume.name
   database_name       = azurerm_cosmosdb_sql_database.resume.name
-  partition_key_path  = "/id"
+  partition_key_path  = "/type"
 }
 
 # Budget Alert
