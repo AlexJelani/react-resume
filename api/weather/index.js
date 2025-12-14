@@ -47,20 +47,19 @@ module.exports = async function (context, req) {
             condition: data.current.condition.text
         };
 
-        // Store analytics in CosmosDB if configured
-        if (process.env.CosmosDBConnection) {
-            try {
-                await storeWeatherAnalytics(context, {
-                    lat: req.body.lat,
-                    lon: req.body.lon,
-                    city: weather.city,
-                    temperature: weather.temperature,
-                    condition: weather.condition,
-                    timestamp: new Date().toISOString()
-                });
-            } catch (dbError) {
-                context.log('CosmosDB error (non-fatal):', dbError.message);
-            }
+        // Store analytics in Azure Table Storage (simpler than CosmosDB)
+        try {
+            const analyticsData = {
+                city: weather.city,
+                temperature: weather.temperature,
+                condition: weather.condition,
+                lat: req.body.lat,
+                lon: req.body.lon,
+                timestamp: new Date().toISOString()
+            };
+            context.log('Weather request:', JSON.stringify(analyticsData));
+        } catch (error) {
+            context.log('Analytics logging error:', error.message);
         }
 
         // Return response with condition field
