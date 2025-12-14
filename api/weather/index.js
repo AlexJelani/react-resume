@@ -2,6 +2,7 @@ const { CosmosClient } = require('@azure/cosmos');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 module.exports = async function (context, req) {
+    // Handle CORS preflight
     if (req.method === 'OPTIONS') {
         context.res = {
             status: 200,
@@ -15,92 +16,51 @@ module.exports = async function (context, req) {
     }
 
     try {
-        // Get user's IP address - Azure Static Web Apps specific headers
-        const forwardedFor = req.headers['x-forwarded-for'];
-        const userIP = forwardedFor ? forwardedFor.split(',')[0].trim() : 
-                      req.headers['x-real-ip'] || 
-                      req.headers['x-client-ip'] ||
-                      (req.connection && req.connection.remoteAddress) ||
-                      '8.8.8.8'; // fallback for testing
-
-        // Get location from IP using ipapi.co (free tier)
-        let city = 'Nagoya';
-        let country = 'Japan';
+        // Get user's IP address
+        const userIP = getUserIP(req);
         
-        try {
-            const locationResponse = await fetch(`http://ipapi.co/${userIP}/json/`);
-            if (locationResponse.ok) {
-                const locationData = await locationResponse.json();
-                city = locationData.city || 'Nagoya';
-                country = locationData.country_name || 'Japan';
-            }
-        } catch (locationError) {
-            // Use default location on error
-        }
-        
-        // Get real weather data using WeatherAPI.com (free tier)
+        // Get weather data from WeatherAPI.com
         const weatherApiKey = process.env.WEATHERAPI_KEY;
+        const response = await fetch(
+            `http://api.weatherapi.com/v1/current.json?key=${weatherApiKey}&q=${userIP}&aqi=no`
+        );
         
-        let temperature, condition, weatherIcon;
-        
-        if (weatherApiKey) {
-            try {
-                const weatherResponse = await fetch(
-                    `http://api.weatherapi.com/v1/current.json?key=${weatherApiKey}&q=${city}&aqi=no`
-                );
-                
-                if (weatherResponse.ok) {
-                    const data = await weatherResponse.json();
-                    temperature = Math.round(data.current.temp_f);
-                    condition = data.current.condition.text;
-                    weatherIcon = getWeatherIcon(condition);
-                    
-
-                } else {
-                    throw new Error('Weather API failed');
-                }
-            } catch (apiError) {
-
-                // Fall back to simulation
-                const weatherData = getLocationWeather(city, country);
-                temperature = weatherData.temperature;
-                condition = weatherData.condition;
-                weatherIcon = getWeatherIcon(condition);
-            }
-        } else {
-            // No API key - use simulation
-            const weatherData = getLocationWeather(city, country);
-            temperature = weatherData.temperature;
-            condition = weatherData.condition;
-            weatherIcon = getWeatherIcon(condition);
+        if (!response.ok) {
+            throw new Error(`API failed: ${response.status}`);
         }
+        
+        const data = await response.json();
+        
+        // Extract only what your UI needs
+        const weather = {
+            city: data.location.name,
+            temperature: Math.round(data.current.temp_f),
+            icon: getWeatherIcon(data.current.condition.text),
+            condition: data.current.condition.text // Added for analytics
+        };
 
-        // Store analytics in CosmosDB
+        // Store analytics in CosmosDB if configured
         if (process.env.CosmosDBConnection) {
             try {
-                const client = new CosmosClient(process.env.CosmosDBConnection);
-                const database = client.database('ResumeDB');
-                const container = database.container('Counters');
-                
-                const weatherDoc = {
-                    id: `weather-${Date.now()}`,
-                    type: 'weather_request',
-                    city: city,
-                    country: country,
-                    temperature: temperature,
-                    condition: condition,
+                await storeWeatherAnalytics(context, {
+                    ip: userIP,
+                    city: weather.city,
+                    temperature: weather.temperature,
+                    condition: weather.condition,
                     timestamp: new Date().toISOString()
-                };
-                
-                await container.items.create(weatherDoc);
-                context.log('✅ Weather analytics saved:', weatherDoc.id);
-
+                });
             } catch (dbError) {
-                context.log('❌ CosmosDB error:', dbError.message);
+                context.log('CosmosDB error (non-fatal):', dbError.message);
+                // Don't fail the request if analytics fails
             }
-        } else {
-            context.log('⚠️ CosmosDB connection not configured');
         }
+
+        // Remove 'condition' from response since UI doesn't need it
+        const uiResponse = {
+            city: weather.city,
+            temperature: weather.temperature,
+            icon: weather.icon
+        };
 
         context.res = {
             status: 200,
@@ -108,18 +68,13 @@ module.exports = async function (context, req) {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
             },
-            body: {
-                city: city,
-                temperature: temperature,
-                condition: condition,
-                icon: weatherIcon
-            }
+            body: uiResponse
         };
 
     } catch (error) {
-
+        context.log('Error getting weather:', error.message);
         
-        // Fallback response
+        // Simple fallback that matches your UI structure
         context.res = {
             status: 200,
             headers: {
@@ -128,47 +83,61 @@ module.exports = async function (context, req) {
             },
             body: {
                 city: 'Nagoya',
-                temperature: 68,
-                condition: 'Partly Cloudy',
+                temperature: 72,
                 icon: '⛅'
             }
         };
     }
 };
 
-function getLocationWeather(city, country) {
-    // Simulate realistic weather based on location and season
-    const locations = {
-        'Nagoya': { temp: 68, condition: 'Partly Cloudy' },
-        'Tokyo': { temp: 65, condition: 'Clear' },
-        'New York': { temp: 45, condition: 'Cloudy' },
-        'London': { temp: 42, condition: 'Rain' },
-        'San Francisco': { temp: 62, condition: 'Fog' },
-        'San Jose': { temp: 58, condition: 'Clear' }
-    };
-    
-    const weather = locations[city] || { temp: 70, condition: 'Clear' };
-    
-    // Add some randomness to make it feel more real
-    const tempVariation = Math.floor(Math.random() * 10) - 5;
-    
-    return {
-        temperature: weather.temp + tempVariation,
-        condition: weather.condition
-    };
+// Helper to get user IP
+function getUserIP(req) {
+    const forwardedFor = req.headers['x-forwarded-for'];
+    return forwardedFor ? forwardedFor.split(',')[0].trim() : 
+           req.headers['x-real-ip'] || 
+           'auto:ip'; // WeatherAPI will auto-detect IP
 }
 
+// Convert WeatherAPI condition to emoji
 function getWeatherIcon(condition) {
-    const icons = {
-        'Clear': '☀️',
-        'Sunny': '☀️',
-        'Partly Cloudy': '⛅',
-        'Cloudy': '☁️',
-        'Rain': '🌧️',
-        'Snow': '❄️',
-        'Thunderstorm': '⛈️',
-        'Fog': '🌫️'
+    const conditionLower = condition.toLowerCase();
+    
+    if (conditionLower.includes('sunny') || conditionLower.includes('clear')) {
+        return '☀️';
+    } else if (conditionLower.includes('partly cloudy')) {
+        return '⛅';
+    } else if (conditionLower.includes('cloudy') || conditionLower.includes('overcast')) {
+        return '☁️';
+    } else if (conditionLower.includes('rain') || conditionLower.includes('drizzle')) {
+        return '🌧️';
+    } else if (conditionLower.includes('snow') || conditionLower.includes('sleet')) {
+        return '❄️';
+    } else if (conditionLower.includes('thunder') || conditionLower.includes('storm')) {
+        return '⛈️';
+    } else if (conditionLower.includes('fog') || conditionLower.includes('mist')) {
+        return '🌫️';
+    }
+    
+    return '🌤️'; // Default
+}
+
+// Store weather request analytics in CosmosDB
+async function storeWeatherAnalytics(context, weatherData) {
+    const client = new CosmosClient(process.env.CosmosDBConnection);
+    const database = client.database('ResumeDB');
+    const container = database.container('WeatherAnalytics');
+    
+    const analyticsDoc = {
+        id: `weather-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        type: 'weather_request',
+        ip: weatherData.ip,
+        city: weatherData.city,
+        temperature: weatherData.temperature,
+        condition: weatherData.condition,
+        timestamp: weatherData.timestamp,
+        source: 'weatherapi'
     };
     
-    return icons[condition] || '🌤️';
+    await container.items.create(analyticsDoc);
+    context.log('✅ Weather analytics saved to CosmosDB');
 }
