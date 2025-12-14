@@ -41,6 +41,7 @@ module.exports = async function (context, req) {
         // Extract weather data
         const weather = {
             city: data.location.name,
+            country: data.location.country,
             temperature: Math.round(data.current.temp_f),
             icon: getWeatherIcon(data.current.condition.text),
             condition: data.current.condition.text
@@ -65,6 +66,7 @@ module.exports = async function (context, req) {
         // Return response with condition field
         const uiResponse = {
             city: weather.city,
+            country: weather.country,
             temperature: weather.temperature,
             condition: weather.condition,
             icon: weather.icon

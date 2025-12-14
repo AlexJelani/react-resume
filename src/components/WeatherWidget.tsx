@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 interface WeatherData {
     city: string;
+    country: string;
     temperature: number;
     condition: string;
     icon: string;
@@ -37,6 +38,7 @@ const WeatherWidget: React.FC = () => {
                                 // Local development - API not running
                                 setWeather({
                                     city: 'Local Dev',
+                                    country: 'Test',
                                     temperature: 72,
                                     condition: 'Clear',
                                     icon: '☀️'
@@ -62,6 +64,7 @@ const WeatherWidget: React.FC = () => {
                 if (err instanceof Error && err.message.includes('fetch')) {
                     setWeather({
                         city: 'Local Dev',
+                        country: 'Test',
                         temperature: 72,
                         condition: 'Clear',
                         icon: '☀️'
@@ -83,7 +86,7 @@ const WeatherWidget: React.FC = () => {
 
     return (
         <span className="text-light">
-            {weather.icon} {weather.temperature}°F {weather.city}
+            {weather.icon} {weather.temperature}°F {weather.city}, {weather.country}
         </span>
     );
 };
