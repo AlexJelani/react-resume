@@ -30,18 +30,25 @@ module.exports = async function (context, req) {
         let city = 'Nagoya';
         let country = 'Japan';
         
-        try {
-            const locationResponse = await fetch(`http://ipapi.co/${userIP}/json/`);
-            if (locationResponse.ok) {
-                const locationData = await locationResponse.json();
-                city = locationData.city || 'Nagoya';
-                country = locationData.country_name || 'Japan';
-                context.log(`Detected location: ${city}, ${country}`);
-            } else {
-                context.log('Location API failed, using default location');
+        // Temporary test: Force San Jose if we detect a specific pattern
+        if (userIP.startsWith('156.146') || userIP === '8.8.8.8') {
+            city = 'San Jose';
+            country = 'United States';
+            context.log(`Forced San Jose for testing IP: ${userIP}`);
+        } else {
+            try {
+                const locationResponse = await fetch(`http://ipapi.co/${userIP}/json/`);
+                if (locationResponse.ok) {
+                    const locationData = await locationResponse.json();
+                    city = locationData.city || 'Nagoya';
+                    country = locationData.country_name || 'Japan';
+                    context.log(`Detected location: ${city}, ${country}`);
+                } else {
+                    context.log('Location API failed, using default location');
+                }
+            } catch (locationError) {
+                context.log('Location detection error:', locationError.message);
             }
-        } catch (locationError) {
-            context.log('Location detection error:', locationError.message);
         }
         
         // Get real weather data using WeatherAPI.com (free tier)
