@@ -16,13 +16,20 @@ module.exports = async function (context, req) {
     }
 
     try {
-        // Get user's IP address
-        const userIP = getUserIP(req);
+        const weatherApiKey = process.env.WEATHERAPI_KEY;
+        
+        // Only accept POST requests with coordinates
+        if (req.method !== 'POST' || !req.body || !req.body.lat || !req.body.lon) {
+            throw new Error('Geolocation coordinates required');
+        }
+        
+        // Use coordinates from browser geolocation
+        const weatherQuery = `${req.body.lat},${req.body.lon}`;
+        context.log(`Using geolocation: ${weatherQuery}`);
         
         // Get weather data from WeatherAPI.com
-        const weatherApiKey = process.env.WEATHERAPI_KEY;
         const response = await fetch(
-            `http://api.weatherapi.com/v1/current.json?key=${weatherApiKey}&q=${userIP}&aqi=no`
+            `http://api.weatherapi.com/v1/current.json?key=${weatherApiKey}&q=${weatherQuery}&aqi=no`
         );
         
         if (!response.ok) {
@@ -31,19 +38,20 @@ module.exports = async function (context, req) {
         
         const data = await response.json();
         
-        // Extract only what your UI needs
+        // Extract weather data
         const weather = {
             city: data.location.name,
             temperature: Math.round(data.current.temp_f),
             icon: getWeatherIcon(data.current.condition.text),
-            condition: data.current.condition.text // Added for analytics
+            condition: data.current.condition.text
         };
 
         // Store analytics in CosmosDB if configured
         if (process.env.CosmosDBConnection) {
             try {
                 await storeWeatherAnalytics(context, {
-                    ip: userIP,
+                    lat: req.body.lat,
+                    lon: req.body.lon,
                     city: weather.city,
                     temperature: weather.temperature,
                     condition: weather.condition,
@@ -51,14 +59,14 @@ module.exports = async function (context, req) {
                 });
             } catch (dbError) {
                 context.log('CosmosDB error (non-fatal):', dbError.message);
-                // Don't fail the request if analytics fails
             }
         }
 
-        // Remove 'condition' from response since UI doesn't need it
+        // Return response with condition field
         const uiResponse = {
             city: weather.city,
             temperature: weather.temperature,
+            condition: weather.condition,
             icon: weather.icon
         };
 
@@ -89,14 +97,6 @@ module.exports = async function (context, req) {
         };
     }
 };
-
-// Helper to get user IP
-function getUserIP(req) {
-    const forwardedFor = req.headers['x-forwarded-for'];
-    return forwardedFor ? forwardedFor.split(',')[0].trim() : 
-           req.headers['x-real-ip'] || 
-           'auto:ip'; // WeatherAPI will auto-detect IP
-}
 
 // Convert WeatherAPI condition to emoji
 function getWeatherIcon(condition) {
@@ -130,12 +130,13 @@ async function storeWeatherAnalytics(context, weatherData) {
     const analyticsDoc = {
         id: `weather-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         type: 'weather_request',
-        ip: weatherData.ip,
+        lat: weatherData.lat,
+        lon: weatherData.lon,
         city: weatherData.city,
         temperature: weatherData.temperature,
         condition: weatherData.condition,
         timestamp: weatherData.timestamp,
-        source: 'weatherapi'
+        source: 'geolocation'
     };
     
     await container.items.create(analyticsDoc);

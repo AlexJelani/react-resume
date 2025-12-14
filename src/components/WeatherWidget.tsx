@@ -15,16 +15,61 @@ const WeatherWidget: React.FC = () => {
     useEffect(() => {
         const fetchWeather = async () => {
             try {
-                const response = await fetch('/api/weather');
-                
-                if (!response.ok) throw new Error('Weather unavailable');
-                
-                const data = await response.json();
-                setWeather(data);
+                // Try to get user's location using browser geolocation
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        async (position) => {
+                            const { latitude, longitude } = position.coords;
+                            
+                            // Send coordinates to our API
+                            const response = await fetch('/api/weather', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ lat: latitude, lon: longitude })
+                            });
+                            
+                            if (response.ok) {
+                                const data = await response.json();
+                                setWeather(data);
+                            } else if (response.status === 404) {
+                                // Local development - API not running
+                                setWeather({
+                                    city: 'Local Dev',
+                                    temperature: 72,
+                                    condition: 'Clear',
+                                    icon: '☀️'
+                                });
+                            } else {
+                                throw new Error('Weather API failed');
+                            }
+                            setLoading(false);
+                        },
+                        (error) => {
+                            console.log('Geolocation denied or failed');
+                            setError('Location access required for weather');
+                            setLoading(false);
+                        }
+                    );
+                } else {
+                    // Browser doesn't support geolocation
+                    setError('Geolocation not supported');
+                    setLoading(false);
+                }
             } catch (err) {
-                setError('Weather unavailable');
+                // Local development fallback
+                if (err instanceof Error && err.message.includes('fetch')) {
+                    setWeather({
+                        city: 'Local Dev',
+                        temperature: 72,
+                        condition: 'Clear',
+                        icon: '☀️'
+                    });
+                } else {
+                    setError('Weather unavailable');
+                }
                 console.error('Weather widget error:', err);
-            } finally {
                 setLoading(false);
             }
         };
