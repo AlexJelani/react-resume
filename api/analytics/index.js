@@ -1,23 +1,6 @@
-const { CosmosClient } = require('@azure/cosmos');
-
 module.exports = async function (context, req) {
     try {
-        if (!process.env.CosmosDBConnection) {
-            context.res = { status: 500, body: 'CosmosDB not configured' };
-            return;
-        }
-
-        const client = new CosmosClient(process.env.CosmosDBConnection);
-        const database = client.database('ResumeDB');
-        const container = database.container('WeatherAnalytics');
-        
-        const { resources } = await container.items
-            .query({
-                query: "SELECT * FROM c WHERE c.type = 'weather_request' ORDER BY c.timestamp DESC",
-                parameters: []
-            })
-            .fetchAll();
-
+        // Simple test response without CosmosDB for now
         context.res = {
             status: 200,
             headers: {
@@ -25,9 +8,11 @@ module.exports = async function (context, req) {
                 'Access-Control-Allow-Origin': '*'
             },
             body: {
-                count: resources.length,
-                recent: resources.slice(0, 10),
-                cities: [...new Set(resources.map(r => r.city))]
+                message: 'Analytics endpoint working',
+                count: 0,
+                recent: [],
+                cities: [],
+                note: 'CosmosDB integration temporarily disabled due to crypto module issue'
             }
         };
 
