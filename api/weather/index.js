@@ -23,32 +23,19 @@ module.exports = async function (context, req) {
                       (req.connection && req.connection.remoteAddress) ||
                       '8.8.8.8'; // fallback for testing
 
-        context.log(`Getting location for IP: ${userIP}`);
-        context.log(`Headers: x-forwarded-for=${req.headers['x-forwarded-for']}, x-real-ip=${req.headers['x-real-ip']}, x-client-ip=${req.headers['x-client-ip']}`);
-
         // Get location from IP using ipapi.co (free tier)
         let city = 'Nagoya';
         let country = 'Japan';
         
-        // Temporary test: Force San Jose if we detect a specific pattern
-        if (userIP.startsWith('156.146') || userIP === '8.8.8.8') {
-            city = 'San Jose';
-            country = 'United States';
-            context.log(`Forced San Jose for testing IP: ${userIP}`);
-        } else {
-            try {
-                const locationResponse = await fetch(`http://ipapi.co/${userIP}/json/`);
-                if (locationResponse.ok) {
-                    const locationData = await locationResponse.json();
-                    city = locationData.city || 'Nagoya';
-                    country = locationData.country_name || 'Japan';
-                    context.log(`Detected location: ${city}, ${country}`);
-                } else {
-                    context.log('Location API failed, using default location');
-                }
-            } catch (locationError) {
-                context.log('Location detection error:', locationError.message);
+        try {
+            const locationResponse = await fetch(`http://ipapi.co/${userIP}/json/`);
+            if (locationResponse.ok) {
+                const locationData = await locationResponse.json();
+                city = locationData.city || 'Nagoya';
+                country = locationData.country_name || 'Japan';
             }
+        } catch (locationError) {
+            // Use default location on error
         }
         
         // Get real weather data using WeatherAPI.com (free tier)
@@ -68,12 +55,12 @@ module.exports = async function (context, req) {
                     condition = data.current.condition.text;
                     weatherIcon = getWeatherIcon(condition);
                     
-                    context.log(`Real weather: ${temperature}°F, ${condition}`);
+
                 } else {
                     throw new Error('Weather API failed');
                 }
             } catch (apiError) {
-                context.log('WeatherAPI error:', apiError.message);
+
                 // Fall back to simulation
                 const weatherData = getLocationWeather(city, country);
                 temperature = weatherData.temperature;
@@ -105,9 +92,9 @@ module.exports = async function (context, req) {
                     timestamp: new Date().toISOString()
                 });
                 
-                context.log(`Stored weather analytics for ${city}`);
+
             } catch (dbError) {
-                context.log('CosmosDB error:', dbError.message);
+
             }
         }
 
@@ -126,7 +113,7 @@ module.exports = async function (context, req) {
         };
 
     } catch (error) {
-        context.log('Weather API error:', error.message);
+
         
         // Fallback response
         context.res = {
