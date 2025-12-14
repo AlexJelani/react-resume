@@ -24,14 +24,14 @@ module.exports = async function (context, req) {
         context.log(`Getting location for IP: ${userIP}`);
 
         // Get location from IP using ipapi.co (free tier)
-        let city = 'Gamagori';
+        let city = 'Nagoya';
         let country = 'Japan';
         
         try {
             const locationResponse = await fetch(`http://ipapi.co/${userIP}/json/`);
             if (locationResponse.ok) {
                 const locationData = await locationResponse.json();
-                city = locationData.city || 'Gamagori';
+                city = locationData.city || 'Nagoya';
                 country = locationData.country_name || 'Japan';
                 context.log(`Detected location: ${city}, ${country}`);
             } else {
@@ -42,7 +42,7 @@ module.exports = async function (context, req) {
         }
         
         // Get real weather data using WeatherAPI.com (free tier)
-        const weatherApiKey = process.env.WEATHER_API_KEY;
+        const weatherApiKey = process.env.WEATHERAPI_KEY;
         
         let temperature, condition, weatherIcon;
         
@@ -126,7 +126,7 @@ module.exports = async function (context, req) {
                 'Access-Control-Allow-Origin': '*'
             },
             body: {
-                city: 'Gamagori',
+                city: 'Nagoya',
                 temperature: 68,
                 condition: 'Partly Cloudy',
                 icon: '⛅'
@@ -138,7 +138,7 @@ module.exports = async function (context, req) {
 function getLocationWeather(city, country) {
     // Simulate realistic weather based on location and season
     const locations = {
-        'Gamagori': { temp: 68, condition: 'Partly Cloudy' },
+        'Nagoya': { temp: 68, condition: 'Partly Cloudy' },
         'Tokyo': { temp: 65, condition: 'Clear' },
         'New York': { temp: 45, condition: 'Cloudy' },
         'London': { temp: 42, condition: 'Rain' },
