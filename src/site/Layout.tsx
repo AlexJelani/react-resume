@@ -64,6 +64,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <footer className="site-footer">
                 <div className="wrap footer-grid">
                     <div>
+                        <img src={company.logo} alt="" className="footer-logo" width={64} height={64} />
                         <p className="footer-name">{company.legalName}</p>
                         <p>{company.japaneseName}</p>
                         <p>
@@ -100,7 +101,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                                 <Link to="/privacy">Website privacy</Link>
                             </li>
                             <li>
-                                <a href={company.linkedin}>LinkedIn</a>
+                                <a href={company.linkedinCompany}>LinkedIn</a>
                             </li>
                             <li>
                                 <a href={company.github}>GitHub</a>
