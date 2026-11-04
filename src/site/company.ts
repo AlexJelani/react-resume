@@ -6,7 +6,7 @@ export const company = {
     japaneseName: 'アレキサンダークラウドコンサルティング',
     founder: 'Jelani Alexander',
     location: 'Aichi, Japan',
-    logo: '/acc-logo.jpg',
+    logo: '/logo512.png',
     linkedinCompany: 'https://www.linkedin.com/company/alexander-cloud-consulting/',
     email: 'jelani@alexandercloudconsultant.com',
     linkedin: 'https://www.linkedin.com/in/jelani-alexander/',

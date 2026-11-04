@@ -108,7 +108,7 @@ p {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 68px;
+    min-height: 76px;
     gap: 16px;
 }
 
@@ -119,12 +119,14 @@ p {
     color: #fff;
     text-decoration: none;
     font-weight: 700;
+    font-size: 18px;
     letter-spacing: 0.01em;
 }
 
 .logo-mark {
-    color: var(--accent);
-    display: flex;
+    display: block;
+    border-radius: 11px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.22);
 }
 
 .nav {
@@ -170,7 +172,7 @@ p {
     .nav {
         display: none;
         position: absolute;
-        top: 68px;
+        top: 76px;
         left: 0;
         right: 0;
         background: var(--indigo-deep);
@@ -538,6 +540,8 @@ p {
 }
 
 .footer-logo {
-    border-radius: 12px;
+    display: block;
+    border-radius: 22px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.22);
     margin-bottom: 14px;
 }

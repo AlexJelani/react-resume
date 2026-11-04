@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Alexander Cloud Consultant">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1f1d45"/>
+      <stop offset="1" stop-color="#3d2f63"/>
+    </linearGradient>
+    <linearGradient id="cloud" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e0713f"/>
+      <stop offset="1" stop-color="#bf4e26"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <g transform="translate(0 26)"><path d="M150 352c-44 0-78-33-78-75 0-38 28-69 65-74 12-56 61-95 119-95 50 0 93 30 111 76h6c53 0 95 38 95 85 0 46-42 83-95 83H150z" fill="url(#cloud)"/>
+  <text x="256" y="300" text-anchor="middle" font-family="'Plus Jakarta Sans','Segoe UI',Arial,sans-serif" font-weight="800" font-size="104" letter-spacing="6" fill="#ffffff">ACC</text></g>
+</svg>

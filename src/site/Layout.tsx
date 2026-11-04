@@ -4,15 +4,7 @@ import { company } from './company';
 
 const Logo: React.FC = () => (
     <Link to="/" className="logo" aria-label={`${company.displayName} home`}>
-        <span className="logo-mark" aria-hidden="true">
-            <svg viewBox="0 0 32 32" width="32" height="32">
-                <rect width="32" height="32" rx="9" fill="currentColor" />
-                <path
-                    d="M9.5 21.5c-2.2 0-3.8-1.6-3.8-3.7 0-1.9 1.4-3.4 3.2-3.7.6-2.7 3-4.6 5.8-4.6 2.5 0 4.6 1.5 5.5 3.7h.4c2.6 0 4.6 2 4.6 4.2s-2 4.1-4.6 4.1H9.5z"
-                    fill="#fff"
-                />
-            </svg>
-        </span>
+        <img src={company.logo} alt="" className="logo-mark" width={44} height={44} />
         <span className="logo-text">{company.displayName}</span>
     </Link>
 );
@@ -64,7 +56,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <footer className="site-footer">
                 <div className="wrap footer-grid">
                     <div>
-                        <img src={company.logo} alt="" className="footer-logo" width={64} height={64} />
+                        <img src={company.logo} alt="" className="footer-logo" width={96} height={96} />
                         <p className="footer-name">{company.legalName}</p>
                         <p>{company.japaneseName}</p>
                         <p>
