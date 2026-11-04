@@ -1,6 +1,6 @@
 # Alexander Cloud Consultant website
 
-Business website for ALEXANDER CLOUD CONSULTANT (アレキサンダークラウドコンサルティング), Tokyo, Japan.
+Business website for ALEXANDER CLOUD CONSULTANT (アレキサンダークラウドコンサルティング), Aichi, Japan.
 Live at [alexandercloudconsultant.com](https://alexandercloudconsultant.com).
 
 ## Pages
