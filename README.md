@@ -1,14 +1,22 @@
-# Cloud Resume Challenge - Azure Edition
+# Alexander Cloud Consultant website
 
-![App preview](https://pbs.twimg.com/media/FGfEkxsXIAEMtZI?format=jpg&name=4096x4096)
+Business website for ALEXANDER CLOUD CONSULTANT (アレキサンダークラウドコンサルティング), Tokyo, Japan.
+Live at [alexandercloudconsultant.com](https://alexandercloudconsultant.com).
 
-**Live Sites:** 
-- **Production:** [https://alexandercloudconsultant.com](https://alexandercloudconsultant.com) (Azure Blob Storage + Cloudflare)
-- **Azure Static Web Apps:** [https://lemon-smoke-0541d8f0f.3.azurestaticapps.net](https://lemon-smoke-0541d8f0f.3.azurestaticapps.net) (Full-stack with API)
+## Pages
 
-A full-stack serverless resume website deployed on Microsoft Azure with CI/CD automation, Infrastructure as Code, custom domain with HTTPS, and Azure Functions API backend.
+| Path | Page |
+| --- | --- |
+| `/` | Company home: apps, cloud consulting, about, contact |
+| `/janets-light` | Janet's Light app page |
+| `/janets-light/privacy` | Janet's Light Privacy Policy (App Store privacy URL) |
+| `/janets-light/terms` | Janet's Light Terms of Use |
+| `/janets-light/support` | Janet's Light Support (App Store support URL) |
+| `/privacy` | Website privacy |
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and is a port of [Resume](https://github.com/StartBootstrap/startbootstrap-resume) by [Start Bootstrap](https://startbootstrap.com).
+Business details (name, email) live in `src/site/company.ts`. To add a new app, add a card in
+`src/site/HomePage.tsx` and its pages under `src/site/<app>/`, then add routes in `src/App.tsx`.
+`staticwebapp.config.json` sends every page path to `index.html` so links like `/janets-light/privacy` load directly.
 
 ## 🚀 Quick Start
 
