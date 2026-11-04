@@ -6,20 +6,20 @@ import profile from '../assets/images/profile.jpeg';
 
 const services = [
     {
-        title: 'Azure infrastructure',
-        text: 'AKS and cloud platforms built as code with Bicep and Terraform, sized to your budget.',
+        title: 'Cloud architecture',
+        text: 'Plans and builds on AWS, Azure, Google Cloud and Oracle Cloud that fit your size and budget.',
     },
     {
-        title: 'DevOps pipelines',
-        text: 'Automated builds, tests and releases with Azure DevOps and GitHub Actions.',
+        title: 'DevOps and CI/CD',
+        text: 'Automated builds, tests and releases with GitHub Actions, Docker and Kubernetes.',
     },
     {
-        title: 'Cloud security hardening',
-        text: 'Security reviews and fixes that follow AZ-500 and CCSK practice.',
+        title: 'Infrastructure as Code',
+        text: 'Repeatable, reviewable infrastructure with Terraform, so nothing depends on clicks in a console.',
     },
     {
-        title: 'Multi-cloud migration',
-        text: 'Moving workloads from AWS or Google Cloud to Azure with a clear, low-risk plan.',
+        title: 'Security and cost',
+        text: 'Cloud security reviews (CCSK) and cost tuning, so systems stay safe and bills stay small.',
     },
 ];
 
@@ -33,7 +33,7 @@ const HomePage: React.FC = () => {
                     <h1>Apps and cloud systems that make everyday life a little easier.</h1>
                     <p className="lead">
                         We are a Japan-based studio. We build mobile apps for health, language learning and
-                        fitness, and we offer Azure cloud and DevOps consulting to clients around the world.
+                        fitness, and we offer cloud and DevOps consulting to clients around the world.
                     </p>
                     <div className="actions">
                         <Link className="button" to="/#apps">
@@ -85,9 +85,9 @@ const HomePage: React.FC = () => {
 
             <section id="services" className="section alt">
                 <div className="wrap">
-                    <h2>Azure cloud consulting</h2>
+                    <h2>Cloud consulting</h2>
                     <p className="section-lead">
-                        The same skills that run our apps, available for your team. All work is 100% remote, for 3 to 12 month projects.
+                        The same skills that run our apps, available for your team.
                     </p>
                     <div className="service-grid">
                         {services.map((s) => (
