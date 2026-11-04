@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="104" fill="#1f1d45"/>
+  <path d="M118 402c-52 0-92-39-92-88 0-45 33-81 77-87 14-66 72-112 140-112 59 0 110 35 131 89h7c63 0 105 45 105 99 0 54-42 99-105 99H118z" fill="#d9612f"/>
+  <text x="258" y="356" text-anchor="middle" font-family="'Plus Jakarta Sans','Segoe UI',Arial,sans-serif" font-weight="800" font-size="150" fill="#ffffff">ACC</text>
+</svg>
