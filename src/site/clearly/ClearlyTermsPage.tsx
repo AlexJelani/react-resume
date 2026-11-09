@@ -27,8 +27,8 @@ const English: React.FC = () => (
 
         <h2>Free plan and daily limits</h2>
         <p>
-            Every sentence we score costs us money, so scoring has a daily limit. The free plan includes 10
-            scored sentences a day, and Clearly Pro includes up to 100 a day. Days reset at midnight Japan time.
+            Every sentence we score costs us money, so scoring has a daily limit. The free plan includes 5
+            scored sentences a day, and Clearly Pro includes up to 50 a day. Days reset at midnight Japan time.
             We may change these limits; if we lower the Pro limit, we will tell you in the app first.
         </p>
 
@@ -114,7 +114,7 @@ const Japanese: React.FC = () => (
 
         <h2>無料プランと1日の上限</h2>
         <p>
-            採点には1文ごとに費用がかかるため、1日の上限があります。無料プランは1日10文、Clearly Proは1日100文まで採点できます。日付は日本時間の午前0時に切り替わります。上限は変更することがあり、Proの上限を下げる場合は事前にアプリでお知らせします。
+            採点には1文ごとに費用がかかるため、1日の上限があります。無料プランは1日5文、Clearly Proは1日50文まで採点できます。日付は日本時間の午前0時に切り替わります。上限は変更することがあり、Proの上限を下げる場合は事前にアプリでお知らせします。
         </p>
 
         <h2>Clearly Pro（サブスクリプション）</h2>

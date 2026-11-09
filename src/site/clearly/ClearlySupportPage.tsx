@@ -21,8 +21,8 @@ const copy: Record<Lang, { title: string; contact: string; body: string; faqTitl
                 a: 'Scores are automatic estimates. Try a quiet room, hold the phone about 20 cm from your mouth, and read the whole sentence at a natural speed.',
             },
             {
-                q: 'Why can I only score 10 sentences a day?',
-                a: 'Every scored sentence costs us money, so the free plan includes 10 a day. Clearly Pro includes up to 100 a day. The count resets at midnight Japan time.',
+                q: 'Why can I only score 5 sentences a day?',
+                a: 'Every scored sentence costs us money, so the free plan includes 5 a day, which is one full sound check. Clearly Pro includes up to 50 a day. The count resets at midnight Japan time.',
             },
             {
                 q: 'Are my recordings saved?',
@@ -56,8 +56,8 @@ const copy: Record<Lang, { title: string; contact: string; body: string; faqTitl
                 a: 'スコアは自動で算出される目安です。静かな場所で、スマートフォンを口から20 cmほど離し、文全体を自然な速さで読んでみてください。',
             },
             {
-                q: 'なぜ1日10文までなのですか？',
-                a: '採点には1文ごとに費用がかかるため、無料プランは1日10文です。Clearly Proは1日100文まで採点できます。回数は日本時間の午前0時にリセットされます。',
+                q: 'なぜ1日5文までなのですか？',
+                a: '採点には1文ごとに費用がかかるため、無料プランは1日5文（発音チェック1回分）です。Clearly Proは1日50文まで採点できます。回数は日本時間の午前0時にリセットされます。',
             },
             {
                 q: '録音は保存されますか？',
