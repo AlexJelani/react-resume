@@ -280,8 +280,12 @@ p {
 
 .app-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
+}
+
+.app-grid .app-card.muted {
+    grid-column: 1 / -1;
 }
 
 .app-card.featured {
@@ -415,6 +419,12 @@ p {
     }
 }
 
+/* Clearly: link to the other language */
+.lang-switch {
+    margin: 0 0 8px;
+    font-weight: 600;
+}
+
 /* Text pages */
 .page h1 {
     margin-bottom: 0.3em;
@@ -496,7 +506,7 @@ p {
 
 .footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 32px;
 }
 
