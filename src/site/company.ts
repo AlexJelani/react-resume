@@ -20,3 +20,15 @@ export const janetsLight = {
     supportEmail: company.email,
     policyDate: 'November 4, 2026',
 };
+
+export const clearly = {
+    name: 'Clearly',
+    tagline: 'English pronunciation coach for Japanese speakers.',
+    taglineJa: '日本語を話す人のための英語発音コーチ',
+    icon: '/apps/clearly/icon.png',
+    supportEmail: company.email,
+    policyDate: 'November 9, 2026',
+    policyDateJa: '2026年11月9日',
+    playSubscriptions:
+        'https://play.google.com/store/account/subscriptions?package=com.alexandercloudconsultant.clearly',
+};

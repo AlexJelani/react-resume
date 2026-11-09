@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { company, janetsLight } from './company';
+import { clearly, company, janetsLight } from './company';
 import usePageTitle from './usePageTitle';
 import profile from '../assets/images/profile.jpeg';
 
@@ -69,10 +69,22 @@ const HomePage: React.FC = () => {
                                 </div>
                             </div>
                         </article>
-                        <article className="card app-card muted">
-                            <span className="badge neutral">In development</span>
-                            <h3>Language learning</h3>
-                            <p>A friendly way to practice a new language a few minutes a day.</p>
+                        <article className="card app-card featured">
+                            <img src={clearly.icon} alt="" className="app-icon" width={72} height={72} />
+                            <div>
+                                <span className="badge">Coming soon to Android</span>
+                                <h3>{clearly.name}</h3>
+                                <p className="tagline">{clearly.tagline}</p>
+                                <p>
+                                    Read a sentence out loud and see which words came through clearly and which
+                                    sounds to practice. Made for Japanese speakers learning English.
+                                </p>
+                                <div className="link-row">
+                                    <Link to="/clearly">Learn more</Link>
+                                    <Link to="/clearly/support">Support</Link>
+                                    <Link to="/clearly/privacy">Privacy</Link>
+                                </div>
+                            </div>
                         </article>
                         <article className="card app-card muted">
                             <span className="badge neutral">In development</span>
