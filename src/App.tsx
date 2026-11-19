@@ -10,6 +10,10 @@ import ClearlyPage from './site/clearly/ClearlyPage';
 import ClearlyPrivacyPage from './site/clearly/ClearlyPrivacyPage';
 import ClearlyTermsPage from './site/clearly/ClearlyTermsPage';
 import ClearlySupportPage from './site/clearly/ClearlySupportPage';
+import OishiScanPage from './site/oishiscan/OishiScanPage';
+import OishiScanPrivacyPage from './site/oishiscan/PrivacyPage';
+import OishiScanTermsPage from './site/oishiscan/TermsPage';
+import OishiScanSupportPage from './site/oishiscan/SupportPage';
 import SitePrivacyPage from './site/SitePrivacyPage';
 import NotFoundPage from './site/NotFoundPage';
 
@@ -30,6 +34,10 @@ const App: React.FC = () => (
                 <Route exact path="/clearly/ja/terms" render={() => <ClearlyTermsPage lang="ja" />} />
                 <Route exact path="/clearly/support" render={() => <ClearlySupportPage lang="en" />} />
                 <Route exact path="/clearly/ja/support" render={() => <ClearlySupportPage lang="ja" />} />
+                <Route exact path="/oishiscan" component={OishiScanPage} />
+                <Route exact path="/oishiscan/privacy" component={OishiScanPrivacyPage} />
+                <Route exact path="/oishiscan/terms" component={OishiScanTermsPage} />
+                <Route exact path="/oishiscan/support" component={OishiScanSupportPage} />
                 <Route exact path="/privacy" component={SitePrivacyPage} />
                 <Route component={NotFoundPage} />
             </Switch>

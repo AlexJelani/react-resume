@@ -65,6 +65,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         <p>
                             <a href={`mailto:${company.email}`}>{company.email}</a>
                         </p>
+                        <p>
+                            App support: <a href={`mailto:${company.supportEmail}`}>{company.supportEmail}</a>
+                        </p>
                     </div>
                     <div>
                         <p className="footer-head">Janet's Light</p>
@@ -102,6 +105,23 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                                 <Link to="/clearly/ja" lang="ja">
                                     日本語
                                 </Link>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p className="footer-head">OishiScan</p>
+                        <ul>
+                            <li>
+                                <Link to="/oishiscan">About the app</Link>
+                            </li>
+                            <li>
+                                <Link to="/oishiscan/support">Support</Link>
+                            </li>
+                            <li>
+                                <Link to="/oishiscan/privacy">Privacy Policy</Link>
+                            </li>
+                            <li>
+                                <Link to="/oishiscan/terms">Terms of Use</Link>
                             </li>
                         </ul>
                     </div>
