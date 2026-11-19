@@ -84,6 +84,28 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         </ul>
                     </div>
                     <div>
+                        <p className="footer-head">Clearly</p>
+                        <ul>
+                            <li>
+                                <Link to="/clearly">About the app</Link>
+                            </li>
+                            <li>
+                                <Link to="/clearly/support">Support</Link>
+                            </li>
+                            <li>
+                                <Link to="/clearly/privacy">Privacy Policy</Link>
+                            </li>
+                            <li>
+                                <Link to="/clearly/terms">Terms of Use</Link>
+                            </li>
+                            <li>
+                                <Link to="/clearly/ja" lang="ja">
+                                    日本語
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
                         <p className="footer-head">Company</p>
                         <ul>
                             <li>
