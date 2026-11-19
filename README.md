@@ -12,6 +12,10 @@ Live at [alexandercloudconsultant.com](https://alexandercloudconsultant.com).
 | `/janets-light/privacy` | Janet's Light Privacy Policy (App Store privacy URL) |
 | `/janets-light/terms` | Janet's Light Terms of Use |
 | `/janets-light/support` | Janet's Light Support (App Store support URL) |
+| `/oishiscan` | OishiScan app page |
+| `/oishiscan/privacy` | OishiScan Privacy Policy (App Store privacy URL) |
+| `/oishiscan/terms` | OishiScan Terms of Use |
+| `/oishiscan/support` | OishiScan Support (App Store support URL) |
 | `/privacy` | Website privacy |
 
 Business details (name, email) live in `src/site/company.ts`. To add a new app, add a card in

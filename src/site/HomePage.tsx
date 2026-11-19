@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { clearly, company, janetsLight } from './company';
+import { clearly, company, janetsLight, oishiscan } from './company';
 import usePageTitle from './usePageTitle';
 import profile from '../assets/images/profile.jpeg';
 
@@ -86,6 +86,23 @@ const HomePage: React.FC = () => {
                                 </div>
                             </div>
                         </article>
+                        <article className="card app-card featured">
+                            <img src={oishiscan.icon} alt="" className="app-icon" width={72} height={72} />
+                            <div>
+                                <span className="badge">Coming soon to iPhone and Android</span>
+                                <h3>{oishiscan.name}</h3>
+                                <p className="tagline">{oishiscan.tagline}</p>
+                                <p>
+                                    Scan a konbini item, a menu or a dish in Japan and see it in English, with
+                                    calories, protein, carbs, fat and ingredients. Log it and track your day.
+                                </p>
+                                <div className="link-row">
+                                    <Link to="/oishiscan">Learn more</Link>
+                                    <Link to="/oishiscan/support">Support</Link>
+                                    <Link to="/oishiscan/privacy">Privacy</Link>
+                                </div>
+                            </div>
+                        </article>
                         <article className="card app-card muted">
                             <span className="badge neutral">In development</span>
                             <h3>Fitness</h3>
@@ -128,6 +145,8 @@ const HomePage: React.FC = () => {
                         </p>
                         <p>
                             <a href={`mailto:${company.email}`}>{company.email}</a>
+                            <br />
+                            App support: <a href={`mailto:${company.supportEmail}`}>{company.supportEmail}</a>
                         </p>
                     </div>
                 </div>
