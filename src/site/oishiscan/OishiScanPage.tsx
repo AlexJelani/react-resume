@@ -59,7 +59,8 @@ const OishiScanPage: React.FC = () => {
                         <h2>Free to start</h2>
                         <p>
                             {oishiscan.freeScansPerDay} photo scans a day are free, and logging is always free.
-                            OishiScan Pro gives unlimited scans for {oishiscan.proMonthly} or{' '}
+                            OishiScan Pro gives unlimited scans (fair use: up to {oishiscan.proFairUsePerDay} a day) for{' '}
+                            {oishiscan.proMonthly} or{' '}
                             {oishiscan.proYearly}, with a {oishiscan.trialDays}-day free trial.
                         </p>
                         <Link to="/oishiscan/terms">Read the Terms of Use</Link>

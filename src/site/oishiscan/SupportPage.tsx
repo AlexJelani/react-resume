@@ -14,7 +14,7 @@ const faqs: { q: string; a: React.ReactNode }[] = [
     },
     {
         q: 'How many free scans do I get?',
-        a: `${oishiscan.freeScansPerDay} photo scans a day, counted by Japan time. Barcode scans of known products and logging are always free. OishiScan Pro gives unlimited scans.`,
+        a: `${oishiscan.freeScansPerDay} photo scans a day, counted by Japan time. Barcode scans of known products and logging are always free. OishiScan Pro gives unlimited scans (fair use: up to ${oishiscan.proFairUsePerDay} a day).`,
     },
     {
         q: 'How do I cancel OishiScan Pro?',

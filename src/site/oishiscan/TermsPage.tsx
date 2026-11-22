@@ -10,7 +10,7 @@ const TermsPage: React.FC = () => {
             <div className="wrap narrow prose">
                 <p className="eyebrow">{oishiscan.name}</p>
                 <h1>Terms of Use</h1>
-                <p className="meta">Effective date: {oishiscan.policyDate}</p>
+                <p className="meta">Effective date: {oishiscan.termsDate}</p>
                 <p>By using OishiScan, you agree to these terms.</p>
 
                 <h2>Results are estimates</h2>
@@ -33,7 +33,8 @@ const TermsPage: React.FC = () => {
                 <h2>OishiScan Pro</h2>
                 <p>
                     Logging is free, and you get {oishiscan.freeScansPerDay} free photo scans a day (counted by
-                    Japan time). OishiScan Pro gives unlimited scans.
+                    Japan time). OishiScan Pro gives unlimited scans, with a fair-use limit of{' '}
+                    {oishiscan.proFairUsePerDay} photo scans a day.
                 </p>
                 <ul>
                     <li>
