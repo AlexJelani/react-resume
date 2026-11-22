@@ -123,6 +123,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                             <li>
                                 <Link to="/oishiscan/terms">Terms of Use</Link>
                             </li>
+                            <li>
+                                <Link to="/oishiscan/delete-account">Delete your account</Link>
+                            </li>
                         </ul>
                     </div>
                     <div>

@@ -41,6 +41,13 @@ const TermsPage: React.FC = () => {
                         shown in the app in your currency.
                     </li>
                     <li>
+                        <strong>Trip pass:</strong> a one-time payment of {oishiscan.tripPass} (or the price shown
+                        in the app) for {oishiscan.tripPassDays} days of Pro from the day you buy it. It does not
+                        renew and there is nothing to cancel. Buying another pass while one is running adds{' '}
+                        {oishiscan.tripPassDays} more days. The free trial and the renewal terms below apply to the
+                        monthly and yearly plans only.
+                    </li>
+                    <li>
                         <strong>Free trial:</strong> new subscribers get {oishiscan.trialDays} days free. If you
                         don't cancel at least 24 hours before the trial ends, the subscription starts.
                     </li>
@@ -53,7 +60,7 @@ const TermsPage: React.FC = () => {
                         <strong>To cancel:</strong> iPhone: Settings &gt; your name &gt; Subscriptions. Android:
                         Google Play &gt; Payments &amp; subscriptions.
                     </li>
-                    <li>Refunds are handled by Apple or Google under their rules.</li>
+                    <li>Refunds for plans and trip passes are handled by Apple or Google under their rules.</li>
                 </ul>
 
                 <h2>Fair use</h2>

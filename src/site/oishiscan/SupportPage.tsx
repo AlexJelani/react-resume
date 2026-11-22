@@ -30,7 +30,17 @@ const faqs: { q: string; a: React.ReactNode }[] = [
     },
     {
         q: 'How do I delete my account and data?',
-        a: 'Open Profile > Account and tap Delete account. This deletes your log, saved foods, scans, photos and goals for good.',
+        a: (
+            <>
+                Open Profile &gt; Account and tap Delete account. This deletes your log, saved foods, scans, photos
+                and goals for good. No longer have the app?{' '}
+                <Link to="/oishiscan/delete-account">Ask us to delete it</Link>.
+            </>
+        ),
+    },
+    {
+        q: 'What is the trip pass?',
+        a: `A one-time ${oishiscan.tripPass} payment for ${oishiscan.tripPassDays} days of Pro. It does not renew, so there is nothing to cancel. Buy another to add ${oishiscan.tripPassDays} more days.`,
     },
 ];
 
@@ -61,7 +71,8 @@ const SupportPage: React.FC = () => {
                 </div>
                 <p className="small-links">
                     <Link to="/oishiscan/privacy">Privacy Policy</Link> ·{' '}
-                    <Link to="/oishiscan/terms">Terms of Use</Link>
+                    <Link to="/oishiscan/terms">Terms of Use</Link> ·{' '}
+                    <Link to="/oishiscan/delete-account">Delete your account</Link>
                 </p>
             </div>
         </article>

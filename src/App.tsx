@@ -14,6 +14,7 @@ import OishiScanPage from './site/oishiscan/OishiScanPage';
 import OishiScanPrivacyPage from './site/oishiscan/PrivacyPage';
 import OishiScanTermsPage from './site/oishiscan/TermsPage';
 import OishiScanSupportPage from './site/oishiscan/SupportPage';
+import OishiScanDeleteAccountPage from './site/oishiscan/DeleteAccountPage';
 import SitePrivacyPage from './site/SitePrivacyPage';
 import NotFoundPage from './site/NotFoundPage';
 
@@ -38,6 +39,7 @@ const App: React.FC = () => (
                 <Route exact path="/oishiscan/privacy" component={OishiScanPrivacyPage} />
                 <Route exact path="/oishiscan/terms" component={OishiScanTermsPage} />
                 <Route exact path="/oishiscan/support" component={OishiScanSupportPage} />
+                <Route exact path="/oishiscan/delete-account" component={OishiScanDeleteAccountPage} />
                 <Route exact path="/privacy" component={SitePrivacyPage} />
                 <Route component={NotFoundPage} />
             </Switch>
