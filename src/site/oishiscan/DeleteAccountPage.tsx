@@ -26,7 +26,8 @@ const DeleteAccountPage: React.FC = () => {
                         Open <strong>Profile</strong>, then <strong>Account</strong>.
                     </li>
                     <li>
-                        Tap <strong>Delete account</strong> and confirm.
+                        Tap <strong>Delete account</strong> and confirm. If you use the app as a guest, tap{' '}
+                        <strong>Delete my data</strong>.
                     </li>
                 </ol>
                 <p>Your data is deleted straight away.</p>
@@ -39,8 +40,9 @@ const DeleteAccountPage: React.FC = () => {
                     when it's done.
                 </p>
                 <p>
-                    If you used {oishiscan.name} as a guest, your data has no name or email on it. Email us the
-                    date you last used the app and, if you can, a food you logged, and we'll find and delete it.
+                    If you used {oishiscan.name} as a guest and no longer have the app, your data has no name or
+                    email on it. Email us the date you last used the app and, if you can, a food you logged, and
+                    we'll find and delete it.
                 </p>
 
                 <h2>What is deleted</h2>

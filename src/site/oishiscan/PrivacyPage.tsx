@@ -92,7 +92,8 @@ const PrivacyPage: React.FC = () => {
                 <h2>Keeping and deleting your data</h2>
                 <p>
                     We keep your data while you use the app. To delete it, open <strong>Profile</strong>, then{' '}
-                    <strong>Account</strong>, and tap <strong>Delete account</strong>. This deletes your log,
+                    <strong>Account</strong>, and tap <strong>Delete account</strong> (or{' '}
+                    <strong>Delete my data</strong> as a guest). This deletes your log,
                     saved foods, scans, photos and goals for good. Deleting your account does not cancel a Pro
                     subscription. Cancel it in your App Store or Google Play settings.
                 </p>
