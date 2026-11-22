@@ -39,9 +39,11 @@ export const oishiscan = {
     tagline: 'Read Japanese food labels in English.',
     icon: '/apps/oishiscan/icon.png',
     supportEmail: company.supportEmail,
-    policyDate: 'November 19, 2026',
+    policyDate: 'November 22, 2026',
     freeScansPerDay: 5,
     proMonthly: '¥980 a month',
     proYearly: '¥7,800 a year',
     trialDays: 7,
+    tripPass: '¥1,480',
+    tripPassDays: 30,
 };

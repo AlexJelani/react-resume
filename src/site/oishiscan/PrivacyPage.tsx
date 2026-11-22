@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { company, oishiscan } from '../company';
 import usePageTitle from '../usePageTitle';
 
@@ -21,13 +22,16 @@ const PrivacyPage: React.FC = () => {
                 <ul>
                     <li>
                         <strong>Your account.</strong> You can use OishiScan as a guest, which gives you a random
-                        ID and no name or email. If you create an account, we keep your email address so you can
-                        sign in on another phone.
+                        ID and no name or email. If you create an account with your email, we keep your email
+                        address so you can sign in on another phone. If you sign in with Google, we receive your
+                        Google account's name, email address and profile photo, and show the name and photo on
+                        your profile. We don't receive your Google password or anything else from your Google
+                        account.
                     </li>
                     <li>
-                        <strong>Photos you scan.</strong> When you scan a label, menu or dish, the photo is
-                        uploaded with it (and the barcode number, in Barcode mode) and stored in your private
-                        folder so you can see it again in your log.
+                        <strong>Photos you scan.</strong> When you scan a label, menu or dish, or add a photo of
+                        the back of a pack, the photo is uploaded with it (and the barcode number, in Barcode
+                        mode) and stored in your private folder so you can see it again in your log.
                     </li>
                     <li>
                         <strong>What you log and save.</strong> Your food and drink log, saved foods, scan
@@ -50,6 +54,10 @@ const PrivacyPage: React.FC = () => {
                 <h2>Who helps us run the app</h2>
                 <ul>
                     <li>
+                        <strong>Google Sign-In</strong>, if you choose it, confirms who you are and gives us the
+                        name, email and photo described above.
+                    </li>
+                    <li>
                         <strong>Google Firebase</strong> stores your account, log and photos. Our database and
                         storage are in Tokyo, Japan.
                     </li>
@@ -69,6 +77,12 @@ const PrivacyPage: React.FC = () => {
                     </li>
                 </ul>
 
+                <h2>Meal reminders</h2>
+                <p>
+                    Meal reminders are off unless you turn them on. They are scheduled on your phone, and your
+                    reminder times stay on your phone. We don't send them from a server.
+                </p>
+
                 <h2>Camera and photos</h2>
                 <p>
                     The app asks for the camera to scan food, and for your photo library only when you choose a
@@ -83,13 +97,19 @@ const PrivacyPage: React.FC = () => {
                     subscription. Cancel it in your App Store or Google Play settings.
                 </p>
                 <p>
-                    If you use OishiScan as a guest and want your data deleted, email us from the app's Support
-                    page and we will help.
+                    If you no longer have the app, or you used it as a guest, see{' '}
+                    <Link to="/oishiscan/delete-account">how to delete your account and data</Link> and we will
+                    delete it for you.
+                </p>
+                <p>
+                    Foods the app learned from label photos (a product's name, ingredients and nutrition) may
+                    stay in our food list after you delete your account. They contain nothing that links them
+                    to you.
                 </p>
 
                 <h2>What we do not collect</h2>
                 <p>
-                    We do not collect your contacts, your location or your name. We use no advertising or
+                    We do not collect your contacts or your location, and we only have your name if you sign in with Google. We use no advertising or
                     tracking tools.
                 </p>
 
