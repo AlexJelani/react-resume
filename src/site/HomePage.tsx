@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { clearly, company, janetsLight, oishiscan } from './company';
+import { clearly, company, janetsLight, oishiscan, studio } from './company';
 import usePageTitle from './usePageTitle';
 import profile from '../assets/images/profile.jpeg';
 
@@ -50,6 +50,10 @@ const HomePage: React.FC = () => {
                 <div className="wrap">
                     <h2>Our apps</h2>
                     <p className="section-lead">Free, private and made with care for the people who use them.</p>
+                    <p className="studio-line">
+                        <img src={studio.mark} alt="" width={30} height={25} />
+                        Made by {studio.name}, our app studio.
+                    </p>
                     <div className="app-grid">
                         <article className="card app-card featured">
                             <img src={janetsLight.icon} alt="" className="app-icon" width={72} height={72} />

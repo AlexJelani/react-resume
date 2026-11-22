@@ -555,3 +555,36 @@ p {
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.22);
     margin-bottom: 14px;
 }
+
+/* Mightlight Labs studio credit */
+.studio-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0 0;
+    font-size: 15px;
+    color: var(--ink-soft);
+}
+
+.studio-line img {
+    flex-shrink: 0;
+}
+
+.section .studio-line {
+    margin: -8px 0 24px;
+}
+
+.studio-line.on-dark {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.footer-studio {
+    margin-top: 18px;
+}
+
+.footer-studio img {
+    display: block;
+    height: 42px;
+    width: auto;
+    margin-bottom: 6px;
+}

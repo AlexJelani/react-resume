@@ -14,6 +14,15 @@ export const company = {
     github: 'https://github.com/AlexJelani',
 };
 
+// Mightlight Labs is the studio name for the apps. ALEXANDER CLOUD CONSULTANT
+// stays the legal operator in every policy and on the stores' developer details.
+export const studio = {
+    name: 'Mightlight Labs',
+    mark: '/brand/mightlight-mark.svg',
+    markOnDark: '/brand/mightlight-mark-on-dark.svg',
+    logoOnDark: '/brand/mightlight-labs-horizontal-dark.svg',
+};
+
 export const janetsLight = {
     name: "Janet's Light",
     tagline: 'Catch it early. Keep shining.',
