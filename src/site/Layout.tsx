@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { company } from './company';
+import { company, studio } from './company';
 
 const Logo: React.FC = () => (
     <Link to="/" className="logo" aria-label={`${company.displayName} home`}>
@@ -68,6 +68,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         <p>
                             App support: <a href={`mailto:${company.supportEmail}`}>{company.supportEmail}</a>
                         </p>
+                        <div className="footer-studio">
+                            <img src={studio.logoOnDark} alt={studio.name} width={168} height={42} />
+                            <p>
+                                {studio.name} is the app studio of {company.legalName}.
+                            </p>
+                        </div>
                     </div>
                     <div>
                         <p className="footer-head">Janet's Light</p>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { oishiscan } from '../company';
+import { oishiscan, studio } from '../company';
 import usePageTitle from '../usePageTitle';
 
 const features = [
@@ -33,6 +33,10 @@ const OishiScanPage: React.FC = () => {
                         <p className="eyebrow">Coming soon to iPhone and Android</p>
                         <h1>{oishiscan.name}</h1>
                         <p className="lead">{oishiscan.tagline}</p>
+                        <p className="studio-line on-dark">
+                            <img src={studio.markOnDark} alt="" width={30} height={25} />
+                            By {studio.name}
+                        </p>
                     </div>
                 </div>
             </section>
